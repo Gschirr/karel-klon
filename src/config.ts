@@ -1,3 +1,6 @@
+import karelSvg from './assets/karel.svg'
+import beeperSvg from './assets/beeper.svg'
+
 export const config = {
   grid: {
     width: 10,
@@ -5,8 +8,8 @@ export const config = {
     cellSize: 56,
   },
   assets: {
-    karelSvg: '/src/assets/karel.svg',
-    beeperSvg: '/src/assets/beeper.svg',
+    karelSvg,
+    beeperSvg,
   },
   execution: {
     maxSteps: 10_000,
