@@ -2,8 +2,8 @@
   {
     "id": "L1-01",
     "level": 1,
-    "title": "Hallo Karel!",
-    "description": "Karel steht am linken Rand und sieht einen Beeper vor sich. Geh drei Schritte nach vorne und heb ihn auf!",
+    "title": "Hallo Rex!",
+    "description": "Rex steht am linken Rand und sieht einen Beeper vor sich. Geh drei Schritte nach vorne und heb ihn auf!",
     "hint": "Du brauchst den Befehl vorwaerts dreimal und dann einmal aufheben.",
     "grid": {
       "walls": [],
@@ -104,7 +104,7 @@
     "id": "L1-04",
     "level": 1,
     "title": "Zickzack",
-    "description": "Drei Beeper warten auf Karel - aber sie liegen im Zickzack! Sammle alle ein: einen geradeaus, dann einen unten und noch einen daneben.",
+    "description": "Drei Beeper warten auf Rex - aber sie liegen im Zickzack! Sammle alle ein: einen geradeaus, dann einen unten und noch einen daneben.",
     "hint": "Nach dem ersten Beeper musst du dich nach rechts (suedwaerts) drehen, dann nach links (ostwaerts).",
     "grid": {
       "walls": [],
@@ -224,7 +224,7 @@
     "id": "L2-03",
     "level": 2,
     "title": "Spuren hinterlassen",
-    "description": "Karel soll sechs Beeper der Reihe nach auf den Boden legen - eine Spur aus sechs Feldern! Benutze eine Schleife: ablegen und dann vorwaerts gehen.",
+    "description": "Rex soll sechs Beeper der Reihe nach auf den Boden legen - eine Spur aus sechs Feldern! Benutze eine Schleife: ablegen und dann vorwaerts gehen.",
     "hint": "Wiederhole 5 Mal: ablegen und vorwaerts. Dann noch einmal ablegen am Ende.",
     "grid": {
       "walls": [],
@@ -276,7 +276,7 @@
     "id": "L2-04",
     "level": 2,
     "title": "Treppensteigen",
-    "description": "Karel muss eine Treppe hinaufsteigen! Jede Stufe besteht aus einem Schritt nach rechts und einem Schritt nach oben. Benutze eine Schleife fuer alle drei Stufen.",
+    "description": "Rex muss eine Treppe hinaufsteigen! Jede Stufe besteht aus einem Schritt nach rechts und einem Schritt nach oben. Benutze eine Schleife fuer alle drei Stufen.",
     "hint": "Jede Stufe: vorwaerts gehen, nach links drehen, vorwaerts gehen, nach rechts drehen. Wiederhole das dreimal!",
     "grid": {
       "walls": [],
@@ -308,7 +308,7 @@
     "id": "L3-01",
     "level": 3,
     "title": "Vorsicht, Wand!",
-    "description": "Vor Karel liegt eine Wand - aber Karel weiss nicht genau wo. Benutze wenn vorne frei in einer Schleife, damit Karel anhaelt, bevor er gegen die Wand laeuft!",
+    "description": "Vor Rex liegt eine Wand - aber Rex weiss nicht genau wo. Benutze wenn vorne frei in einer Schleife, damit Rex anhaelt, bevor er gegen die Wand laeuft!",
     "hint": "Wiederhole 9 Mal: wenn vorne frei, dann vorwaerts gehen.",
     "grid": {
       "walls": [
@@ -380,7 +380,7 @@
     "id": "L3-03",
     "level": 3,
     "title": "Sackgasse",
-    "description": "Karel laeuft geradeaus - aber dann kommt eine Wand! Benutze wenn/sonst: wenn vorne frei, geh vor. Sonst dreh dich nach links, geh einen Schritt und heb den Beeper auf.",
+    "description": "Rex laeuft geradeaus - aber dann kommt eine Wand! Benutze wenn/sonst: wenn vorne frei, geh vor. Sonst dreh dich nach links, geh einen Schritt und heb den Beeper auf.",
     "hint": "Geh drei Schritte vorwaerts. Dann kommt die Entscheidung: wenn vorne frei - nochmal vorwaerts. Sonst: links drehen, vorwaerts, aufheben.",
     "grid": {
       "walls": [

@@ -360,14 +360,29 @@ export default function App() {
           className="flex-none bg-white border-b border-gray-200 px-6 flex items-center justify-between"
           style={{ height: '52px' }}
         >
-          <h1 className="text-xl font-bold text-gray-800">Karel der Roboter</h1>
+          <h1 className="text-xl font-bold text-gray-800">Rex der Dino</h1>
           <span className="text-sm text-gray-600 font-medium">
             {state.currentTask?.title ?? ''}
           </span>
-          <ProgressBar
-            solvedCount={state.progress.solved.length}
-            totalCount={allTasks.length}
-          />
+          <div className="flex items-center gap-3">
+            <ProgressBar
+              solvedCount={state.progress.solved.length}
+              totalCount={allTasks.length}
+            />
+            <button
+              onClick={() => {
+                const confirmed = window.confirm('Fortschritt wirklich zurücksetzen? Alle Sterne gehen verloren!')
+                if (confirmed) {
+                  localStorage.removeItem('karel-progress')
+                  dispatch({ type: 'SET_PROGRESS', progress: loadProgress() })
+                }
+              }}
+              className="text-xs px-2 py-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+              title="Fortschritt zurücksetzen"
+            >
+              Zurücksetzen
+            </button>
+          </div>
         </header>
 
         {/* Main — 3 columns */}
@@ -383,8 +398,6 @@ export default function App() {
               currentTaskId={state.currentTask?.id ?? null}
               solvedTasks={state.progress.solved}
               onSelectTask={loadTask}
-              unlockedLevel={state.progress.unlockedLevel}
-              allUnlocked={state.progress.allUnlocked}
             />
           </aside>
 

@@ -14,7 +14,7 @@ const blockDefinitions = [
     previousStatement: null,
     nextStatement: null,
     colour: COMMAND_COLOUR,
-    tooltip: 'Karel geht einen Schritt vorwärts',
+    tooltip: 'Rex geht einen Schritt vorwärts',
   },
   {
     type: 'karel_links_um',
@@ -22,7 +22,7 @@ const blockDefinitions = [
     previousStatement: null,
     nextStatement: null,
     colour: COMMAND_COLOUR,
-    tooltip: 'Karel dreht sich nach links',
+    tooltip: 'Rex dreht sich nach links',
   },
   {
     type: 'karel_rechts_um',
@@ -30,7 +30,7 @@ const blockDefinitions = [
     previousStatement: null,
     nextStatement: null,
     colour: COMMAND_COLOUR,
-    tooltip: 'Karel dreht sich nach rechts',
+    tooltip: 'Rex dreht sich nach rechts',
   },
   {
     type: 'karel_umdrehen',
@@ -38,7 +38,7 @@ const blockDefinitions = [
     previousStatement: null,
     nextStatement: null,
     colour: COMMAND_COLOUR,
-    tooltip: 'Karel dreht sich um 180 Grad',
+    tooltip: 'Rex dreht sich um 180 Grad',
   },
   {
     type: 'karel_aufheben',
@@ -46,7 +46,7 @@ const blockDefinitions = [
     previousStatement: null,
     nextStatement: null,
     colour: COMMAND_COLOUR,
-    tooltip: 'Karel hebt einen Beeper auf',
+    tooltip: 'Rex hebt einen Beeper auf',
   },
   {
     type: 'karel_ablegen',
@@ -54,7 +54,7 @@ const blockDefinitions = [
     previousStatement: null,
     nextStatement: null,
     colour: COMMAND_COLOUR,
-    tooltip: 'Karel legt einen Beeper ab',
+    tooltip: 'Rex legt einen Beeper ab',
   },
 
   // ── Loop block ─────────────────────────────────────────────────────────────
@@ -122,35 +122,35 @@ const blockDefinitions = [
     message0: 'auf Beeper',
     output: 'Boolean',
     colour: CONDITION_COLOUR,
-    tooltip: 'Wahr, wenn Karel auf einem Beeper steht',
+    tooltip: 'Wahr, wenn Rex auf einem Beeper steht',
   },
   {
     type: 'karel_beeper_voraus',
     message0: 'Beeper voraus',
     output: 'Boolean',
     colour: CONDITION_COLOUR,
-    tooltip: 'Wahr, wenn sich ein Beeper vor Karel befindet',
+    tooltip: 'Wahr, wenn sich ein Beeper vor Rex befindet',
   },
   {
     type: 'karel_vorne_frei',
     message0: 'vorne frei',
     output: 'Boolean',
     colour: CONDITION_COLOUR,
-    tooltip: 'Wahr, wenn der Weg vor Karel frei ist',
+    tooltip: 'Wahr, wenn der Weg vor Rex frei ist',
   },
   {
     type: 'karel_links_frei',
     message0: 'links frei',
     output: 'Boolean',
     colour: CONDITION_COLOUR,
-    tooltip: 'Wahr, wenn links von Karel frei ist',
+    tooltip: 'Wahr, wenn links von Rex frei ist',
   },
   {
     type: 'karel_rechts_frei',
     message0: 'rechts frei',
     output: 'Boolean',
     colour: CONDITION_COLOUR,
-    tooltip: 'Wahr, wenn rechts von Karel frei ist',
+    tooltip: 'Wahr, wenn rechts von Rex frei ist',
   },
 ]
 

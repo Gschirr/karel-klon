@@ -6,10 +6,6 @@ interface TaskPanelProps {
   currentTaskId: string | null
   solvedTasks: string[]
   onSelectTask: (task: TaskDefinition) => void
-  /** Highest level whose tasks are accessible (1, 2, or 3). Defaults to 1. */
-  unlockedLevel?: number
-  /** When true, all tasks are accessible regardless of level. */
-  allUnlocked?: boolean
 }
 
 const LEVEL_META: Record<1 | 2 | 3, { label: string; badgeClass: string }> = {
@@ -35,8 +31,6 @@ export default function TaskPanel({
   currentTaskId,
   solvedTasks,
   onSelectTask,
-  unlockedLevel = 1,
-  allUnlocked = false,
 }: TaskPanelProps) {
   const [hintOpen, setHintOpen] = useState(false)
 
@@ -114,31 +108,23 @@ export default function TaskPanel({
                 {levelTasks.map((task) => {
                   const isActive = task.id === currentTaskId
                   const isSolved = solvedTasks.includes(task.id)
-                  const isLocked = !allUnlocked && task.level > unlockedLevel
                   const snippet = truncate(firstSentence(task.description), 55)
 
                   return (
                     <li key={task.id}>
                       <button
-                        onClick={() => { if (!isLocked) onSelectTask(task) }}
+                        onClick={() => onSelectTask(task)}
                         aria-current={isActive ? 'true' : undefined}
-                        aria-disabled={isLocked ? 'true' : undefined}
                         className={[
                           'w-full text-left px-4 py-3 border-l-4 transition-colors',
-                          isLocked
-                            ? 'opacity-50 cursor-not-allowed'
-                            : 'hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-400',
+                          'hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-400',
                           isActive
                             ? 'border-blue-500 bg-blue-50'
                             : 'border-transparent',
                         ].join(' ')}
                       >
                         <div className="flex items-center gap-1.5 mb-0.5">
-                          {isLocked ? (
-                            <span aria-label="Gesperrt" className="text-gray-400 text-sm leading-none">
-                              🔒
-                            </span>
-                          ) : isSolved ? (
+                          {isSolved ? (
                             <span
                               aria-label="Gelöst"
                               className="text-yellow-500 text-base leading-none"

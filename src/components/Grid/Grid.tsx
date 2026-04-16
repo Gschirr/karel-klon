@@ -29,7 +29,7 @@ export default function Grid({ worldState, goalState, showGoal = false, animatio
 
   return (
     <svg
-      viewBox={`0 0 ${totalWidth} ${totalHeight}`}
+      viewBox={`-1.5 -1.5 ${totalWidth + 3} ${totalHeight + 3}`}
       preserveAspectRatio="xMidYMid meet"
       width="100%"
       height="100%"

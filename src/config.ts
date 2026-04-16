@@ -22,13 +22,13 @@ export const config = {
   },
   messages: {
     errors: {
-      wallCollision: 'Ups! Da ist eine Wand! Karel kann nicht weitergehen.',
-      noBeeper: 'Hier liegt kein Beeper, den Karel aufheben könnte!',
+      wallCollision: 'Ups! Da ist eine Wand! Rex kann nicht weitergehen.',
+      noBeeper: 'Hier liegt kein Beeper, den Rex aufheben könnte!',
       hasBeeper: 'Hier liegt schon ein Beeper!',
-      timeout: 'Karel dreht sich im Kreis! Dein Programm läuft zu lange.',
+      timeout: 'Rex dreht sich im Kreis! Dein Programm läuft zu lange.',
     },
     success: {
-      taskComplete: 'Super! Karel hat es geschafft! 🎉',
+      taskComplete: 'Super! Rex hat es geschafft! 🎉',
       taskFailed: 'Fast geschafft! Probier es nochmal!',
       levelComplete: [
         'Toll! Du beherrschst die Grundlagen!',
