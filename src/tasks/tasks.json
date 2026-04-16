@@ -1,0 +1,482 @@
+[
+  {
+    "id": "L1-01",
+    "level": 1,
+    "title": "Hallo Karel!",
+    "description": "Karel steht am linken Rand und sieht einen Beeper vor sich. Geh drei Schritte nach vorne und heb ihn auf!",
+    "hint": "Du brauchst den Befehl vorwaerts dreimal und dann einmal aufheben.",
+    "grid": {
+      "walls": [],
+      "beepers": [
+        {
+          "x": 3,
+          "y": 0
+        }
+      ]
+    },
+    "karel": {
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "direction": "east"
+    },
+    "goal": {
+      "karel": {
+        "position": {
+          "x": 3,
+          "y": 0
+        }
+      },
+      "beepers": []
+    }
+  },
+  {
+    "id": "L1-02",
+    "level": 1,
+    "title": "Um die Ecke",
+    "description": "Der Beeper liegt nicht geradeaus, sondern um die Ecke! Geh zuerst zwei Schritte nach rechts, dann dreh dich und geh zwei Schritte nach unten.",
+    "hint": "Nach zwei Schritten vorwaerts musst du dich nach rechts drehen - dann geht es weiter!",
+    "grid": {
+      "walls": [],
+      "beepers": [
+        {
+          "x": 2,
+          "y": 2
+        }
+      ]
+    },
+    "karel": {
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "direction": "east"
+    },
+    "goal": {
+      "karel": {
+        "position": {
+          "x": 2,
+          "y": 2
+        }
+      },
+      "beepers": []
+    }
+  },
+  {
+    "id": "L1-03",
+    "level": 1,
+    "title": "Beeper-Staffel",
+    "description": "Hol den Beeper und bring ihn zwei Felder weiter! Heb ihn auf, geh zwei Schritte vor und leg ihn dann ab.",
+    "hint": "Zuerst zwei Schritte vorwaerts und aufheben, dann noch zwei Schritte und ablegen.",
+    "grid": {
+      "walls": [],
+      "beepers": [
+        {
+          "x": 2,
+          "y": 0
+        }
+      ]
+    },
+    "karel": {
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "direction": "east"
+    },
+    "goal": {
+      "karel": {
+        "position": {
+          "x": 4,
+          "y": 0
+        }
+      },
+      "beepers": [
+        {
+          "x": 4,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "id": "L1-04",
+    "level": 1,
+    "title": "Zickzack",
+    "description": "Drei Beeper warten auf Karel - aber sie liegen im Zickzack! Sammle alle ein: einen geradeaus, dann einen unten und noch einen daneben.",
+    "hint": "Nach dem ersten Beeper musst du dich nach rechts (suedwaerts) drehen, dann nach links (ostwaerts).",
+    "grid": {
+      "walls": [],
+      "beepers": [
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        }
+      ]
+    },
+    "karel": {
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "direction": "east"
+    },
+    "goal": {
+      "karel": {
+        "position": {
+          "x": 2,
+          "y": 1
+        }
+      },
+      "beepers": []
+    }
+  },
+  {
+    "id": "L2-01",
+    "level": 2,
+    "title": "Der lange Weg",
+    "description": "Der Beeper ist ganz weit weg - neun Schritte! Anstatt vorwaerts neunmal hinzuschreiben, benutze eine Schleife: wiederhole 9 Mal vorwaerts gehen.",
+    "hint": "Benutze wiederhole 9 Mal mit dem Befehl vorwaerts darin.",
+    "grid": {
+      "walls": [],
+      "beepers": [
+        {
+          "x": 9,
+          "y": 0
+        }
+      ]
+    },
+    "karel": {
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "direction": "east"
+    },
+    "goal": {
+      "karel": {
+        "position": {
+          "x": 9,
+          "y": 0
+        }
+      },
+      "beepers": []
+    }
+  },
+  {
+    "id": "L2-02",
+    "level": 2,
+    "title": "Beeper-Reihe",
+    "description": "Fuenf Beeper liegen hintereinander auf dem Weg. Mit einer Schleife kannst du alle auf einmal einsammeln - jedes Mal: ein Schritt vor, dann aufheben!",
+    "hint": "Wiederhole 5 Mal: vorwaerts gehen und aufheben.",
+    "grid": {
+      "walls": [],
+      "beepers": [
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        }
+      ]
+    },
+    "karel": {
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "direction": "east"
+    },
+    "goal": {
+      "karel": {
+        "position": {
+          "x": 5,
+          "y": 0
+        }
+      },
+      "beepers": []
+    }
+  },
+  {
+    "id": "L2-03",
+    "level": 2,
+    "title": "Spuren hinterlassen",
+    "description": "Karel soll sechs Beeper der Reihe nach auf den Boden legen - eine Spur aus sechs Feldern! Benutze eine Schleife: ablegen und dann vorwaerts gehen.",
+    "hint": "Wiederhole 5 Mal: ablegen und vorwaerts. Dann noch einmal ablegen am Ende.",
+    "grid": {
+      "walls": [],
+      "beepers": []
+    },
+    "karel": {
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "direction": "east"
+    },
+    "goal": {
+      "karel": {
+        "position": {
+          "x": 5,
+          "y": 0
+        }
+      },
+      "beepers": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "id": "L2-04",
+    "level": 2,
+    "title": "Treppensteigen",
+    "description": "Karel muss eine Treppe hinaufsteigen! Jede Stufe besteht aus einem Schritt nach rechts und einem Schritt nach oben. Benutze eine Schleife fuer alle drei Stufen.",
+    "hint": "Jede Stufe: vorwaerts gehen, nach links drehen, vorwaerts gehen, nach rechts drehen. Wiederhole das dreimal!",
+    "grid": {
+      "walls": [],
+      "beepers": [
+        {
+          "x": 3,
+          "y": 0
+        }
+      ]
+    },
+    "karel": {
+      "position": {
+        "x": 0,
+        "y": 3
+      },
+      "direction": "east"
+    },
+    "goal": {
+      "karel": {
+        "position": {
+          "x": 3,
+          "y": 0
+        }
+      },
+      "beepers": []
+    }
+  },
+  {
+    "id": "L3-01",
+    "level": 3,
+    "title": "Vorsicht, Wand!",
+    "description": "Vor Karel liegt eine Wand - aber Karel weiss nicht genau wo. Benutze wenn vorne frei in einer Schleife, damit Karel anhaelt, bevor er gegen die Wand laeuft!",
+    "hint": "Wiederhole 9 Mal: wenn vorne frei, dann vorwaerts gehen.",
+    "grid": {
+      "walls": [
+        {
+          "x": 4,
+          "y": 0,
+          "side": "east"
+        }
+      ],
+      "beepers": []
+    },
+    "karel": {
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "direction": "east"
+    },
+    "goal": {
+      "karel": {
+        "position": {
+          "x": 4,
+          "y": 0
+        }
+      }
+    }
+  },
+  {
+    "id": "L3-02",
+    "level": 3,
+    "title": "Beeper sammeln",
+    "description": "Drei Beeper liegen verstreut auf dem Weg - aber nicht auf jedem Feld! Lauf sechs Schritte und heb immer dann auf, wenn du auf einem Beeper stehst.",
+    "hint": "Wiederhole 6 Mal: vorwaerts gehen, dann wenn auf Beeper: aufheben.",
+    "grid": {
+      "walls": [],
+      "beepers": [
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        }
+      ]
+    },
+    "karel": {
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "direction": "east"
+    },
+    "goal": {
+      "karel": {
+        "position": {
+          "x": 6,
+          "y": 0
+        }
+      },
+      "beepers": []
+    }
+  },
+  {
+    "id": "L3-03",
+    "level": 3,
+    "title": "Sackgasse",
+    "description": "Karel laeuft geradeaus - aber dann kommt eine Wand! Benutze wenn/sonst: wenn vorne frei, geh vor. Sonst dreh dich nach links, geh einen Schritt und heb den Beeper auf.",
+    "hint": "Geh drei Schritte vorwaerts. Dann kommt die Entscheidung: wenn vorne frei - nochmal vorwaerts. Sonst: links drehen, vorwaerts, aufheben.",
+    "grid": {
+      "walls": [
+        {
+          "x": 3,
+          "y": 4,
+          "side": "east"
+        }
+      ],
+      "beepers": [
+        {
+          "x": 3,
+          "y": 3
+        }
+      ]
+    },
+    "karel": {
+      "position": {
+        "x": 0,
+        "y": 4
+      },
+      "direction": "east"
+    },
+    "goal": {
+      "karel": {
+        "position": {
+          "x": 3,
+          "y": 3
+        }
+      },
+      "beepers": []
+    }
+  },
+  {
+    "id": "L3-04",
+    "level": 3,
+    "title": "Luecken fuellen",
+    "description": "Auf dem Weg liegen schon drei Beeper - aber zwischen ihnen sind leere Felder. Lauf entlang und leg dort Beeper ab, wo noch keiner liegt!",
+    "hint": "Wiederhole 6 Mal: wenn auf Beeper, dann vorwaerts gehen. Sonst: ablegen und vorwaerts gehen.",
+    "grid": {
+      "walls": [],
+      "beepers": [
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        }
+      ]
+    },
+    "karel": {
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "direction": "east"
+    },
+    "goal": {
+      "karel": {
+        "position": {
+          "x": 6,
+          "y": 0
+        }
+      },
+      "beepers": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        }
+      ]
+    }
+  }
+]

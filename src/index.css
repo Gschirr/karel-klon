@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #0066CC;
+  --color-success: #4CAF50;
+  --color-warning: #FF9800;
+  --color-grid-bg: #FFFFFF;
+  --color-grid-line: #E0E0E0;
+  --color-wall: #333333;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #F5F5F5;
+  overflow: hidden;
+  height: 100vh;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.blocklyToolboxDiv {
+  background: #f8f9fa !important;
+}

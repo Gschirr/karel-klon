@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Placeholder Karel: freundlicher Fuchs -->
+  <circle cx="32" cy="32" r="28" fill="#FF8C42" />
+  <circle cx="24" cy="26" r="4" fill="white" />
+  <circle cx="40" cy="26" r="4" fill="white" />
+  <circle cx="25" cy="27" r="2" fill="#333" />
+  <circle cx="41" cy="27" r="2" fill="#333" />
+  <ellipse cx="32" cy="38" rx="6" ry="4" fill="#FFB380" />
+  <circle cx="32" cy="37" r="2" fill="#333" />
+  <!-- Richtungsindikator: Nase zeigt nach rechts (Ost) -->
+  <polygon points="52,32 60,28 60,36" fill="#FF8C42" />
+  <!-- Ohren -->
+  <polygon points="16,8 24,20 8,20" fill="#FF8C42" />
+  <polygon points="48,8 40,20 56,20" fill="#FF8C42" />
+  <polygon points="18,12 23,20 13,20" fill="#FFB380" />
+  <polygon points="46,12 41,20 51,20" fill="#FFB380" />
+</svg>

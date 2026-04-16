@@ -1,0 +1,214 @@
+import * as Blockly from 'blockly'
+
+// ── Block definitions (JSON format for defineBlocksWithJsonArray) ──────────
+
+const COMMAND_COLOUR = '#4A90D9'
+const LOOP_COLOUR = '#5BA55B'
+const CONDITION_COLOUR = '#FF9800'
+
+const blockDefinitions = [
+  // ── Command blocks ─────────────────────────────────────────────────────────
+  {
+    type: 'karel_vorwaerts',
+    message0: 'vorwärts',
+    previousStatement: null,
+    nextStatement: null,
+    colour: COMMAND_COLOUR,
+    tooltip: 'Karel geht einen Schritt vorwärts',
+  },
+  {
+    type: 'karel_links_um',
+    message0: 'links um',
+    previousStatement: null,
+    nextStatement: null,
+    colour: COMMAND_COLOUR,
+    tooltip: 'Karel dreht sich nach links',
+  },
+  {
+    type: 'karel_rechts_um',
+    message0: 'rechts um',
+    previousStatement: null,
+    nextStatement: null,
+    colour: COMMAND_COLOUR,
+    tooltip: 'Karel dreht sich nach rechts',
+  },
+  {
+    type: 'karel_umdrehen',
+    message0: 'umdrehen',
+    previousStatement: null,
+    nextStatement: null,
+    colour: COMMAND_COLOUR,
+    tooltip: 'Karel dreht sich um 180 Grad',
+  },
+  {
+    type: 'karel_aufheben',
+    message0: 'aufheben',
+    previousStatement: null,
+    nextStatement: null,
+    colour: COMMAND_COLOUR,
+    tooltip: 'Karel hebt einen Beeper auf',
+  },
+  {
+    type: 'karel_ablegen',
+    message0: 'ablegen',
+    previousStatement: null,
+    nextStatement: null,
+    colour: COMMAND_COLOUR,
+    tooltip: 'Karel legt einen Beeper ab',
+  },
+
+  // ── Loop block ─────────────────────────────────────────────────────────────
+  {
+    type: 'karel_wiederhole',
+    message0: 'wiederhole %1 mal',
+    args0: [
+      {
+        type: 'field_number',
+        name: 'TIMES',
+        value: 2,
+        min: 1,
+        max: 99,
+        precision: 1,
+      },
+    ],
+    message1: '%1',
+    args1: [
+      {
+        type: 'input_statement',
+        name: 'DO',
+      },
+    ],
+    previousStatement: null,
+    nextStatement: null,
+    colour: LOOP_COLOUR,
+    tooltip: 'Wiederholt die enthaltenen Befehle mehrmals',
+  },
+
+  // ── If/Else block ──────────────────────────────────────────────────────────
+  {
+    type: 'karel_wenn',
+    message0: 'wenn %1 dann',
+    args0: [
+      {
+        type: 'input_value',
+        name: 'CONDITION',
+        check: 'Boolean',
+      },
+    ],
+    message1: '%1',
+    args1: [
+      {
+        type: 'input_statement',
+        name: 'DO',
+      },
+    ],
+    message2: 'sonst',
+    message3: '%1',
+    args3: [
+      {
+        type: 'input_statement',
+        name: 'ELSE',
+      },
+    ],
+    previousStatement: null,
+    nextStatement: null,
+    colour: CONDITION_COLOUR,
+    tooltip: 'Führt Befehle aus, abhängig von einer Bedingung',
+  },
+
+  // ── Condition blocks (Boolean output) ─────────────────────────────────────
+  {
+    type: 'karel_auf_beeper',
+    message0: 'auf Beeper',
+    output: 'Boolean',
+    colour: CONDITION_COLOUR,
+    tooltip: 'Wahr, wenn Karel auf einem Beeper steht',
+  },
+  {
+    type: 'karel_beeper_voraus',
+    message0: 'Beeper voraus',
+    output: 'Boolean',
+    colour: CONDITION_COLOUR,
+    tooltip: 'Wahr, wenn sich ein Beeper vor Karel befindet',
+  },
+  {
+    type: 'karel_vorne_frei',
+    message0: 'vorne frei',
+    output: 'Boolean',
+    colour: CONDITION_COLOUR,
+    tooltip: 'Wahr, wenn der Weg vor Karel frei ist',
+  },
+  {
+    type: 'karel_links_frei',
+    message0: 'links frei',
+    output: 'Boolean',
+    colour: CONDITION_COLOUR,
+    tooltip: 'Wahr, wenn links von Karel frei ist',
+  },
+  {
+    type: 'karel_rechts_frei',
+    message0: 'rechts frei',
+    output: 'Boolean',
+    colour: CONDITION_COLOUR,
+    tooltip: 'Wahr, wenn rechts von Karel frei ist',
+  },
+]
+
+// ── Registration ────────────────────────────────────────────────────────────
+
+/**
+ * Register all Karel block definitions with Blockly.
+ * Must be called once before creating a workspace.
+ */
+export function registerKarelBlocks(): void {
+  Blockly.common.defineBlocksWithJsonArray(blockDefinitions)
+}
+
+// ── Toolbox configurations ──────────────────────────────────────────────────
+
+// Flat block lists per group (used in flyout toolbox — always visible, no collapsing)
+
+const commandBlocks = [
+  { kind: 'block', type: 'karel_vorwaerts' },
+  { kind: 'block', type: 'karel_links_um' },
+  { kind: 'block', type: 'karel_rechts_um' },
+  { kind: 'block', type: 'karel_umdrehen' },
+  { kind: 'block', type: 'karel_aufheben' },
+  { kind: 'block', type: 'karel_ablegen' },
+]
+
+const loopBlocks = [
+  { kind: 'block', type: 'karel_wiederhole' },
+]
+
+const conditionBlocks = [
+  { kind: 'block', type: 'karel_wenn' },
+  { kind: 'block', type: 'karel_auf_beeper' },
+  { kind: 'block', type: 'karel_beeper_voraus' },
+  { kind: 'block', type: 'karel_vorne_frei' },
+  { kind: 'block', type: 'karel_links_frei' },
+  { kind: 'block', type: 'karel_rechts_frei' },
+]
+
+const SEP = { kind: 'sep', gap: '24' }
+
+/**
+ * Returns a Blockly flyout toolbox configuration for the given level.
+ * All blocks are always visible (no collapsible categories).
+ * - Level 1: Command blocks only
+ * - Level 2: Commands + Loop block
+ * - Level 3: Commands + Loop + If/Else + Condition blocks
+ */
+export function getToolboxForLevel(level: 1 | 2 | 3): object {
+  const contents =
+    level === 1
+      ? [...commandBlocks]
+      : level === 2
+        ? [...commandBlocks, SEP, ...loopBlocks]
+        : [...commandBlocks, SEP, ...loopBlocks, SEP, ...conditionBlocks]
+
+  return {
+    kind: 'flyoutToolbox',
+    contents,
+  }
+}
