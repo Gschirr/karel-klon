@@ -23,7 +23,7 @@ export default function Controls({
   isRunning = false,
   onPlay,
   onStop,
-  onStep,
+  // onStep, // temporarily disabled
 }: ControlsProps) {
   return (
     <div className="flex items-center gap-3">
@@ -60,7 +60,7 @@ export default function Controls({
           </button>
         )}
 
-        {/* Step button (T-051) */}
+        {/* Step button (T-051) – temporarily disabled, causes confusion
         <button
           onClick={onStep}
           disabled={isRunning}
@@ -77,6 +77,7 @@ export default function Controls({
           <span aria-hidden="true" className="text-base leading-none">⏭</span>
           <span>Schritt</span>
         </button>
+        */}
       </div>
 
       {/* Divider */}

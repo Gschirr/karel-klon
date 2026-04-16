@@ -158,11 +158,22 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
+  // ── onStop ───────────────────────────────────────────────────────────────────
+
+  const onStop = useCallback(() => {
+    abortRef.current?.()
+    abortRef.current = null
+    dispatch({ type: 'SET_RUNNING', running: false })
+  }, [])
+
   // ── onPlay ──────────────────────────────────────────────────────────────────
 
   const onPlay = useCallback(() => {
     const { currentTask, initialWorld } = stateRef.current
     if (!getProgramRef.current || !currentTask || !initialWorld) return
+
+    // Stop any running execution first (full reset)
+    onStop()
 
     // Reset world and clear previous feedback before running
     dispatch({ type: 'RESET_WORLD' })
@@ -232,15 +243,7 @@ export default function App() {
     )
 
     abortRef.current = abort
-  }, [])
-
-  // ── onStop ───────────────────────────────────────────────────────────────────
-
-  const onStop = useCallback(() => {
-    abortRef.current?.()
-    abortRef.current = null
-    dispatch({ type: 'SET_RUNNING', running: false })
-  }, [])
+  }, [onStop])
 
   // ── onStep ───────────────────────────────────────────────────────────────────
 
