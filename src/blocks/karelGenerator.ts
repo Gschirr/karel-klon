@@ -25,7 +25,6 @@ const commandMap: Record<string, CommandName> = {
   karel_vorwaerts: 'moveForward',
   karel_links_um: 'turnLeft',
   karel_rechts_um: 'turnRight',
-  karel_umdrehen: 'turnAround',
   karel_aufheben: 'pickBeeper',
   karel_ablegen: 'dropBeeper',
 }
@@ -97,7 +96,6 @@ const COMMAND_LABELS: Record<CommandName, string> = {
   moveForward: 'vorwärts()',
   turnLeft: 'links_um()',
   turnRight: 'rechts_um()',
-  turnAround: 'umdrehen()',
   pickBeeper: 'aufheben()',
   dropBeeper: 'ablegen()',
 }

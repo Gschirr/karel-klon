@@ -166,12 +166,6 @@ export function turnRight(state: WorldState): WorldState {
   return newState
 }
 
-/** Rotate Karel 180°. */
-export function turnAround(state: WorldState): WorldState {
-  // Two left turns == 180°
-  return turnLeft(turnLeft(state))
-}
-
 /**
  * Pick up the beeper at Karel's current position.
  * Throws if there is no beeper here.
@@ -207,7 +201,6 @@ export function executeCommand(state: WorldState, command: CommandName): WorldSt
     case 'moveForward': return moveForward(state)
     case 'turnLeft':    return turnLeft(state)
     case 'turnRight':   return turnRight(state)
-    case 'turnAround':  return turnAround(state)
     case 'pickBeeper':  return pickBeeper(state)
     case 'dropBeeper':  return dropBeeper(state)
   }

@@ -33,14 +33,6 @@ const blockDefinitions = [
     tooltip: 'Rex dreht sich nach rechts',
   },
   {
-    type: 'karel_umdrehen',
-    message0: 'umdrehen',
-    previousStatement: null,
-    nextStatement: null,
-    colour: COMMAND_COLOUR,
-    tooltip: 'Rex dreht sich um 180 Grad',
-  },
-  {
     type: 'karel_aufheben',
     message0: 'aufheben',
     previousStatement: null,
@@ -168,14 +160,14 @@ export function registerKarelBlocks(): void {
 
 // Flat block lists per group (used in flyout toolbox — always visible, no collapsing)
 
-const commandBlocks = [
+const commandBlocksBase = [
   { kind: 'block', type: 'karel_vorwaerts' },
   { kind: 'block', type: 'karel_links_um' },
-  { kind: 'block', type: 'karel_rechts_um' },
-  { kind: 'block', type: 'karel_umdrehen' },
   { kind: 'block', type: 'karel_aufheben' },
   { kind: 'block', type: 'karel_ablegen' },
 ]
+
+const rechtsUmBlock = { kind: 'block', type: 'karel_rechts_um' }
 
 const loopBlocks = [
   { kind: 'block', type: 'karel_wiederhole' },
@@ -200,12 +192,16 @@ const SEP = { kind: 'sep', gap: '24' }
  * - Level 3: Commands + Loop + If/Else + Condition blocks
  */
 export function getToolboxForLevel(level: 1 | 2 | 3): object {
+  const commands = level === 1
+    ? [commandBlocksBase[0], commandBlocksBase[1], rechtsUmBlock, ...commandBlocksBase.slice(2)]
+    : [...commandBlocksBase]
+
   const contents =
     level === 1
-      ? [...commandBlocks]
+      ? [...commands]
       : level === 2
-        ? [...commandBlocks, SEP, ...loopBlocks]
-        : [...commandBlocks, SEP, ...loopBlocks, SEP, ...conditionBlocks]
+        ? [...commands, SEP, ...loopBlocks]
+        : [...commands, SEP, ...loopBlocks, SEP, ...conditionBlocks]
 
   return {
     kind: 'flyoutToolbox',

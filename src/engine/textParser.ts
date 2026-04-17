@@ -6,7 +6,6 @@ const COMMAND_MAP: Record<string, CommandName> = {
   'vorwärts': 'moveForward',
   'links_um': 'turnLeft',
   'rechts_um': 'turnRight',
-  'umdrehen': 'turnAround',
   'aufheben': 'pickBeeper',
   'ablegen': 'dropBeeper',
 }
