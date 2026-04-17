@@ -34,8 +34,21 @@ export default function Grid({ worldState, goalState, showGoal = false, animatio
       width="100%"
       height="100%"
     >
-      {/* Background */}
-      <rect width={totalWidth} height={totalHeight} fill="var(--color-grid-bg)" />
+      {/* Checkerboard background */}
+      {Array.from({ length: height }, (_, row) =>
+        Array.from({ length: width }, (_, col) => (
+          <rect
+            key={`cell-${col}-${row}`}
+            x={col * cellSize}
+            y={row * cellSize}
+            width={cellSize}
+            height={cellSize}
+            fill={(col + row) % 2 === 0
+              ? 'var(--color-cell-a)'
+              : 'var(--color-cell-b)'}
+          />
+        ))
+      )}
 
       {/* Vertical grid lines */}
       {Array.from({ length: width + 1 }, (_, i) => (

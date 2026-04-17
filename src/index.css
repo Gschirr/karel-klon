@@ -7,6 +7,8 @@
   --color-grid-bg: #FFFFFF;
   --color-grid-line: #E0E0E0;
   --color-wall: #333333;
+  --color-cell-a: #ffe0b2;  /* MCI Orange soft */
+  --color-cell-b: #b3cce0;  /* MCI Blue soft */
 }
 
 body {
