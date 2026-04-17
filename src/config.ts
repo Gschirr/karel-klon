@@ -6,6 +6,7 @@ export const config = {
     width: 10,
     height: 10,
     cellSize: 56,
+    labelGutter: 24,
   },
   assets: {
     karelSvg,

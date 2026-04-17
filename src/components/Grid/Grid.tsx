@@ -21,7 +21,7 @@ function wallLineCoords(x: number, y: number, side: 'north' | 'south' | 'east' |
 }
 
 export default function Grid({ worldState, goalState, showGoal = false, animationDuration = 200, isError = false }: GridProps) {
-  const { width, height, cellSize } = config.grid
+  const { width, height, cellSize, labelGutter } = config.grid
   const totalWidth = width * cellSize
   const totalHeight = height * cellSize
   const beeperSize = cellSize * 0.7
@@ -29,11 +29,43 @@ export default function Grid({ worldState, goalState, showGoal = false, animatio
 
   return (
     <svg
-      viewBox={`-1.5 -1.5 ${totalWidth + 3} ${totalHeight + 3}`}
+      viewBox={`${-labelGutter - 1.5} ${-labelGutter - 1.5} ${totalWidth + labelGutter + 3} ${totalHeight + labelGutter + 3}`}
       preserveAspectRatio="xMidYMid meet"
       width="100%"
       height="100%"
     >
+      {/* Column labels (top) */}
+      {Array.from({ length: width }, (_, col) => (
+        <text
+          key={`col-label-${col}`}
+          x={col * cellSize + cellSize / 2}
+          y={-labelGutter / 2}
+          textAnchor="middle"
+          dominantBaseline="central"
+          fill="#888"
+          fontSize={14}
+          fontFamily="sans-serif"
+        >
+          {col}
+        </text>
+      ))}
+
+      {/* Row labels (left) */}
+      {Array.from({ length: height }, (_, row) => (
+        <text
+          key={`row-label-${row}`}
+          x={-labelGutter / 2}
+          y={row * cellSize + cellSize / 2}
+          textAnchor="middle"
+          dominantBaseline="central"
+          fill="#888"
+          fontSize={14}
+          fontFamily="sans-serif"
+        >
+          {row}
+        </text>
+      ))}
+
       {/* Checkerboard background */}
       {Array.from({ length: height }, (_, row) =>
         Array.from({ length: width }, (_, col) => (
