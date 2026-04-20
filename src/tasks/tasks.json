@@ -277,7 +277,7 @@
     "level": 2,
     "title": "Treppensteigen",
     "description": "Rex muss eine Treppe hinaufsteigen! Jede Stufe besteht aus einem Schritt nach rechts und einem Schritt nach oben. Benutze eine Schleife fuer alle drei Stufen.",
-    "hint": "Jede Stufe: vorwaerts gehen, nach links drehen, vorwaerts gehen, nach rechts drehen. Wiederhole das dreimal!",
+    "hint": "Jede Stufe: vorwaerts gehen, nach links drehen, vorwaerts gehen, dann dreimal links drehen (das ist wie einmal rechts). Wiederhole das dreimal!",
     "grid": {
       "walls": [],
       "beepers": [

@@ -176,8 +176,11 @@ const loopBlocks = [
 const conditionBlocks = [
   { kind: 'block', type: 'karel_wenn' },
   { kind: 'block', type: 'karel_auf_beeper' },
-  { kind: 'block', type: 'karel_beeper_voraus' },
   { kind: 'block', type: 'karel_vorne_frei' },
+]
+
+const sandboxOnlyConditionBlocks = [
+  { kind: 'block', type: 'karel_beeper_voraus' },
   { kind: 'block', type: 'karel_links_frei' },
   { kind: 'block', type: 'karel_rechts_frei' },
 ]
@@ -190,18 +193,23 @@ const SEP = { kind: 'sep', gap: '24' }
  * - Level 1: Command blocks only
  * - Level 2: Commands + Loop block
  * - Level 3: Commands + Loop + If/Else + Condition blocks
+ * - Sandbox: All blocks including unused condition blocks
  */
-export function getToolboxForLevel(level: 1 | 2 | 3): object {
+export function getToolboxForLevel(level: 1 | 2 | 3, sandbox = false): object {
   const commands = level === 1
     ? [commandBlocksBase[0], commandBlocksBase[1], rechtsUmBlock, ...commandBlocksBase.slice(2)]
     : [...commandBlocksBase]
+
+  const conditions = sandbox
+    ? [...conditionBlocks, ...sandboxOnlyConditionBlocks]
+    : conditionBlocks
 
   const contents =
     level === 1
       ? [...commands]
       : level === 2
         ? [...commands, SEP, ...loopBlocks]
-        : [...commands, SEP, ...loopBlocks, SEP, ...conditionBlocks]
+        : [...commands, SEP, ...loopBlocks, SEP, ...conditions]
 
   return {
     kind: 'flyoutToolbox',

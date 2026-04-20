@@ -1,6 +1,7 @@
 import * as Blockly from 'blockly'
 import { useEffect, useRef } from 'react'
 import { registerKarelBlocks, getToolboxForLevel } from '../../blocks/karelBlocks'
+import { useGame } from '../../App'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ToolboxDef = any
@@ -12,6 +13,8 @@ interface BlockEditorProps {
 }
 
 export function BlockEditor({ level, onWorkspaceChange, workspaceRef }: BlockEditorProps) {
+  const { state } = useGame()
+  const sandbox = state.sandboxMode
   const containerRef = useRef<HTMLDivElement>(null)
   const wsRef = useRef<Blockly.WorkspaceSvg | null>(null)
 
@@ -22,7 +25,7 @@ export function BlockEditor({ level, onWorkspaceChange, workspaceRef }: BlockEdi
     registerKarelBlocks()
 
     const workspace = Blockly.inject(containerRef.current, {
-      toolbox: getToolboxForLevel(level) as ToolboxDef,
+      toolbox: getToolboxForLevel(level, sandbox) as ToolboxDef,
       grid: { spacing: 20, length: 3, colour: '#ccc', snap: true },
       trashcan: true,
       scrollbars: true,
@@ -70,11 +73,11 @@ export function BlockEditor({ level, onWorkspaceChange, workspaceRef }: BlockEdi
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Update toolbox when level changes (without re-injecting)
+  // Update toolbox when level or sandbox mode changes (without re-injecting)
   useEffect(() => {
     if (!wsRef.current) return
-    wsRef.current.updateToolbox(getToolboxForLevel(level) as ToolboxDef)
-  }, [level])
+    wsRef.current.updateToolbox(getToolboxForLevel(level, sandbox) as ToolboxDef)
+  }, [level, sandbox])
 
   return (
     <div
