@@ -23,6 +23,67 @@ export function Editor({ level, workspaceRef, getProgramRef }: EditorProps) {
   const textContentRef = useRef(textContent)
   textContentRef.current = textContent
 
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const pendingCursorRef = useRef<number | null>(null)
+
+  // Restore cursor position after text content changes from insertAtCursor
+  useEffect(() => {
+    if (pendingCursorRef.current !== null && textareaRef.current) {
+      const ta = textareaRef.current
+      ta.focus()
+      ta.selectionStart = pendingCursorRef.current
+      ta.selectionEnd = pendingCursorRef.current
+      pendingCursorRef.current = null
+    }
+  }, [textContent])
+
+  function insertAtCursor(text: string) {
+    const ta = textareaRef.current
+    if (!ta) {
+      setTextContent(prev => prev ? prev + '\n' + text : text)
+      return
+    }
+
+    const current = textContent
+    if (!current) {
+      setTextContent(text)
+      pendingCursorRef.current = text.length
+      return
+    }
+
+    const pos = ta.selectionStart ?? current.length
+
+    // Find current line boundaries and indentation
+    const lineStart = current.lastIndexOf('\n', pos - 1) + 1
+    const lineEndIdx = current.indexOf('\n', pos)
+    const lineEnd = lineEndIdx === -1 ? current.length : lineEndIdx
+    const currentLine = current.slice(lineStart, lineEnd)
+    const indent = currentLine.match(/^(\s*)/)?.[1] ?? ''
+
+    // For multi-line insertions, indent continuation lines to match current level
+    const indentedText = text.includes('\n')
+      ? text.split('\n').map((line, i) => i === 0 ? line : indent + line).join('\n')
+      : text
+
+    let newContent: string
+    let newCursorPos: number
+
+    if (currentLine.trim() === '') {
+      // Current line is blank — replace with indented text
+      const replacement = indent + indentedText
+      newContent = current.slice(0, lineStart) + replacement + current.slice(lineEnd)
+      newCursorPos = lineStart + replacement.length
+    } else {
+      // Insert on new line below with same indent
+      const insertion = '\n' + indent + indentedText
+      newContent = current.slice(0, lineEnd) + insertion + current.slice(lineEnd)
+      newCursorPos = lineEnd + insertion.length
+    }
+
+    setTextContent(newContent)
+    pendingCursorRef.current = newCursorPos
+  }
+
   function handleWorkspaceChange(workspace: Blockly.WorkspaceSvg) {
     const generated = generateDisplayCode(workspace)
     setCode(generated)
@@ -150,12 +211,12 @@ export function Editor({ level, workspaceRef, getProgramRef }: EditorProps) {
             {/* Command reference sidebar */}
             <div className="w-44 shrink-0 border-r border-gray-200 bg-gray-50 p-3 overflow-y-auto text-xs">
               <div className="font-semibold text-gray-600 uppercase tracking-wide mb-2">Befehle</div>
-              {['vorwärts()', 'links_um()', 'rechts_um()', 'umdrehen()', 'aufheben()', 'ablegen()'].map(cmd => (
+              {['vorwärts()', 'links_um()', 'rechts_um()', 'aufheben()', 'ablegen()'].map(cmd => (
                 <button
                   key={cmd}
                   className="block w-full text-left px-2 py-1 mb-0.5 rounded text-blue-700 bg-blue-50 hover:bg-blue-100 font-mono cursor-pointer transition-colors"
                   title={`${cmd} einfügen`}
-                  onClick={() => setTextContent(prev => prev ? prev + '\n' + cmd : cmd)}
+                  onClick={() => insertAtCursor(cmd)}
                 >
                   {cmd}
                 </button>
@@ -166,7 +227,7 @@ export function Editor({ level, workspaceRef, getProgramRef }: EditorProps) {
                   <button
                     className="block w-full text-left px-2 py-1 mb-0.5 rounded text-green-700 bg-green-50 hover:bg-green-100 font-mono cursor-pointer transition-colors"
                     title="Schleife einfügen"
-                    onClick={() => setTextContent(prev => prev ? prev + '\nwiederhole 3 mal {\n  \n}' : 'wiederhole 3 mal {\n  \n}')}
+                    onClick={() => insertAtCursor('wiederhole 3 mal {\n  \n}')}
                   >
                     wiederhole _ mal {'{}'}
                   </button>
@@ -178,7 +239,7 @@ export function Editor({ level, workspaceRef, getProgramRef }: EditorProps) {
                   <button
                     className="block w-full text-left px-2 py-1 mb-0.5 rounded text-orange-700 bg-orange-50 hover:bg-orange-100 font-mono cursor-pointer transition-colors"
                     title="Wenn/Sonst einfügen"
-                    onClick={() => setTextContent(prev => prev ? prev + '\nwenn vorne_frei() dann {\n  \n}' : 'wenn vorne_frei() dann {\n  \n}')}
+                    onClick={() => insertAtCursor('wenn vorne_frei() dann {\n  \n}')}
                   >
                     wenn ... dann {'{}'}
                   </button>
@@ -194,6 +255,7 @@ export function Editor({ level, workspaceRef, getProgramRef }: EditorProps) {
             {/* Editor area */}
             <div className="flex-1 flex flex-col min-w-0">
               <textarea
+                ref={textareaRef}
                 value={textContent}
                 onChange={(e) => setTextContent(e.target.value)}
                 className="flex-1 w-full p-4 font-mono text-sm leading-relaxed bg-white resize-none focus:outline-none border-none"

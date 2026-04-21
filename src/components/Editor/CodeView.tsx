@@ -6,7 +6,7 @@ interface CodeViewProps {
 const TOKEN_PATTERNS: Array<{ pattern: RegExp; className: string }> = [
   // Keywords: commands
   {
-    pattern: /\b(vorwärts|links_um|rechts_um|umdrehen|aufheben|ablegen)\b/g,
+    pattern: /\b(vorwärts|links_um|rechts_um|aufheben|ablegen)\b/g,
     className: 'text-blue-600',
   },
   // Loop keyword
