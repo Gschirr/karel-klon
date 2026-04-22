@@ -279,18 +279,55 @@ export type ParseResult =
   | { ok: true; program: Program }
   | { ok: false; error: string }
 
+// Commands/conditions allowed per level (mirrors karelBlocks.ts getToolboxForLevel)
+const ALLOWED_COMMANDS: Record<1 | 2 | 3, Set<string>> = {
+  1: new Set(['vorwärts', 'links_um', 'rechts_um', 'aufheben', 'ablegen']),
+  2: new Set(['vorwärts', 'links_um', 'aufheben', 'ablegen']),
+  3: new Set(['vorwärts', 'links_um', 'aufheben', 'ablegen']),
+}
+
+function validateLevel(program: ASTNode[], level: 1 | 2 | 3): void {
+  const allowed = ALLOWED_COMMANDS[level]
+  for (const node of program) {
+    if (node.type === 'command') {
+      // Reverse-lookup: find the German name for the internal command name
+      const germanName = Object.entries(COMMAND_MAP).find(([, v]) => v === node.name)?.[0]
+      if (germanName && !allowed.has(germanName)) {
+        throw new Error(`'${germanName}()' ist in diesem Level nicht verfügbar.`)
+      }
+    } else if (node.type === 'repeat') {
+      validateLevel(node.body, level)
+    } else if (node.type === 'ifElse') {
+      if (level < 3) {
+        throw new Error(`'wenn' ist erst ab Level 3 verfügbar.`)
+      }
+      validateLevel(node.then, level)
+      validateLevel(node.else, level)
+    }
+  }
+  if (level < 2) {
+    for (const node of program) {
+      if (node.type === 'repeat') {
+        throw new Error(`'wiederhole' ist erst ab Level 2 verfügbar.`)
+      }
+    }
+  }
+}
+
 /** Parse German pseudo-code into a Program AST. Throws on syntax errors. */
-export function parseText(text: string): Program {
+export function parseText(text: string, level?: 1 | 2 | 3): Program {
   if (!text.trim()) return []
   const tokens = tokenize(text)
   const parser = new Parser(tokens)
-  return parser.parseProgram()
+  const program = parser.parseProgram()
+  if (level) validateLevel(program, level)
+  return program
 }
 
 /** Parse German pseudo-code into a Program AST. Never throws. */
-export function tryParseText(text: string): ParseResult {
+export function tryParseText(text: string, level?: 1 | 2 | 3): ParseResult {
   try {
-    return { ok: true, program: parseText(text) }
+    return { ok: true, program: parseText(text, level) }
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : String(e) }
   }

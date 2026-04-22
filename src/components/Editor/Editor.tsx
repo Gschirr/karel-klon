@@ -7,13 +7,15 @@ import { BlockEditor } from './BlockEditor'
 
 interface EditorProps {
   level: 1 | 2 | 3
+  taskId: string
+  sandbox: boolean
   workspaceRef: React.MutableRefObject<Blockly.WorkspaceSvg | null>
   getProgramRef: React.MutableRefObject<(() => Program) | null>
 }
 
 type Mode = 'blocks' | 'text'
 
-export function Editor({ level, workspaceRef, getProgramRef }: EditorProps) {
+export function Editor({ level, taskId, sandbox, workspaceRef, getProgramRef }: EditorProps) {
   const [mode, setMode] = useState<Mode>('blocks')
   const [code, setCode] = useState<string>('')
   const [textContent, setTextContent] = useState<string>('')
@@ -66,18 +68,39 @@ export function Editor({ level, workspaceRef, getProgramRef }: EditorProps) {
       : text
 
     let newContent: string
-    let newCursorPos: number
+    let insertStart: number
 
     if (currentLine.trim() === '') {
       // Current line is blank — replace with indented text
       const replacement = indent + indentedText
       newContent = current.slice(0, lineStart) + replacement + current.slice(lineEnd)
-      newCursorPos = lineStart + replacement.length
+      insertStart = lineStart
     } else {
       // Insert on new line below with same indent
       const insertion = '\n' + indent + indentedText
       newContent = current.slice(0, lineEnd) + insertion + current.slice(lineEnd)
-      newCursorPos = lineEnd + insertion.length
+      insertStart = lineEnd
+    }
+
+    // Calculate how long the inserted text actually is
+    const insertLen = currentLine.trim() === ''
+      ? (indent + indentedText).length
+      : ('\n' + indent + indentedText).length
+    const insertedOnly = newContent.slice(insertStart, insertStart + insertLen)
+
+    // For multi-line blocks (wiederhole/wenn), place cursor on the empty line inside braces
+    let newCursorPos: number
+    const openBrace = insertedOnly.indexOf('{')
+    if (text.includes('{\n') && openBrace !== -1) {
+      const afterBrace = insertedOnly.indexOf('\n', openBrace)
+      if (afterBrace !== -1) {
+        const nextLine = insertedOnly.indexOf('\n', afterBrace + 1)
+        newCursorPos = insertStart + (nextLine !== -1 ? nextLine : insertLen)
+      } else {
+        newCursorPos = insertStart + insertLen
+      }
+    } else {
+      newCursorPos = insertStart + insertLen
     }
 
     setTextContent(newContent)
@@ -98,9 +121,20 @@ export function Editor({ level, workspaceRef, getProgramRef }: EditorProps) {
         return generateProgram(ws)
       }
     } else {
-      getProgramRef.current = () => parseText(textContentRef.current)
+      getProgramRef.current = () => parseText(textContentRef.current, level)
     }
-  }, [mode, getProgramRef, workspaceRef])
+  }, [mode, level, getProgramRef, workspaceRef])
+
+  // Clear editor when task changes (skip initial mount)
+  const isFirstRender = useRef(true)
+  useEffect(() => {
+    if (isFirstRender.current) { isFirstRender.current = false; return }
+    setTextContent('')
+    setParseError(null)
+    setCode('')
+    workspaceRef.current?.clear()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskId])
 
   // Live validation of text input (debounced 500ms)
   useEffect(() => {
@@ -113,11 +147,11 @@ export function Editor({ level, workspaceRef, getProgramRef }: EditorProps) {
       return
     }
     const timer = setTimeout(() => {
-      const result = tryParseText(textContent)
+      const result = tryParseText(textContent, level)
       setParseError(result.ok ? null : result.error)
     }, 500)
     return () => clearTimeout(timer)
-  }, [textContent, mode])
+  }, [textContent, mode, level])
 
   function switchToText() {
     setTextContent(code)
@@ -211,10 +245,10 @@ export function Editor({ level, workspaceRef, getProgramRef }: EditorProps) {
             {/* Command reference sidebar */}
             <div className="w-44 shrink-0 border-r border-gray-200 bg-gray-50 p-3 overflow-y-auto text-xs">
               <div className="font-semibold text-gray-600 uppercase tracking-wide mb-2">Befehle</div>
-              {[...(level === 1
+              {(level === 1
                 ? ['vorwärts()', 'links_um()', 'rechts_um()', 'aufheben()', 'ablegen()']
                 : ['vorwärts()', 'links_um()', 'aufheben()', 'ablegen()']
-              )].map(cmd => (
+              ).map(cmd => (
                 <button
                   key={cmd}
                   className="block w-full text-left px-2 py-1 mb-0.5 rounded text-blue-700 bg-blue-50 hover:bg-blue-100 font-mono cursor-pointer transition-colors"
@@ -246,7 +280,7 @@ export function Editor({ level, workspaceRef, getProgramRef }: EditorProps) {
                   >
                     wenn ... dann {'{}'}
                   </button>
-                  {['auf_beeper()', 'beeper_voraus()', 'vorne_frei()', 'links_frei()', 'rechts_frei()'].map(cond => (
+                  {['auf_beeper()', 'vorne_frei()', ...(sandbox ? ['beeper_voraus()', 'links_frei()', 'rechts_frei()'] : [])].map(cond => (
                     <div key={cond} className="px-2 py-0.5 font-mono text-orange-600">
                       {cond}
                     </div>

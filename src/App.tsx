@@ -832,6 +832,8 @@ export default function App() {
           <section className="bg-white overflow-hidden flex flex-col">
             <Editor
               level={state.sandboxMode ? 3 : (state.currentTask?.level ?? 1)}
+              taskId={state.sandboxMode ? '__sandbox__' : (state.currentTask?.id ?? '')}
+              sandbox={state.sandboxMode}
               workspaceRef={workspaceRef}
               getProgramRef={getProgramRef}
             />
