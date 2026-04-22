@@ -3,9 +3,9 @@ import type { Level } from '../engine/types'
 
 // ── Block definitions (JSON format for defineBlocksWithJsonArray) ──────────
 
-const COMMAND_COLOUR = '#4F46E5'
+const COMMAND_COLOUR = '#004983'
 const LOOP_COLOUR = '#16A34A'
-const CONDITION_COLOUR = '#EA580C'
+const CONDITION_COLOUR = '#ff9900'
 
 const blockDefinitions = [
   // ── Command blocks ─────────────────────────────────────────────────────────
