@@ -211,7 +211,10 @@ export function Editor({ level, workspaceRef, getProgramRef }: EditorProps) {
             {/* Command reference sidebar */}
             <div className="w-44 shrink-0 border-r border-gray-200 bg-gray-50 p-3 overflow-y-auto text-xs">
               <div className="font-semibold text-gray-600 uppercase tracking-wide mb-2">Befehle</div>
-              {['vorwärts()', 'links_um()', 'rechts_um()', 'aufheben()', 'ablegen()'].map(cmd => (
+              {[...(level === 1
+                ? ['vorwärts()', 'links_um()', 'rechts_um()', 'aufheben()', 'ablegen()']
+                : ['vorwärts()', 'links_um()', 'aufheben()', 'ablegen()']
+              )].map(cmd => (
                 <button
                   key={cmd}
                   className="block w-full text-left px-2 py-1 mb-0.5 rounded text-blue-700 bg-blue-50 hover:bg-blue-100 font-mono cursor-pointer transition-colors"
@@ -227,7 +230,7 @@ export function Editor({ level, workspaceRef, getProgramRef }: EditorProps) {
                   <button
                     className="block w-full text-left px-2 py-1 mb-0.5 rounded text-green-700 bg-green-50 hover:bg-green-100 font-mono cursor-pointer transition-colors"
                     title="Schleife einfügen"
-                    onClick={() => insertAtCursor('wiederhole 3 mal {\n  \n}')}
+                    onClick={() => insertAtCursor('wiederhole 2 mal {\n  \n}')}
                   >
                     wiederhole _ mal {'{}'}
                   </button>
