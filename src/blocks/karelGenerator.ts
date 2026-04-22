@@ -5,6 +5,21 @@ import type { ASTNode, CommandName, ConditionName, Program } from '../engine/typ
 
 const karelGenerator = new Blockly.CodeGenerator('Karel')
 
+// The base CodeGenerator.scrub_ is a no-op — it must be overridden to chain
+// blocks connected via nextConnection, otherwise only the first block in each
+// statement input (DO, ELSE) is generated.
+karelGenerator.scrub_ = function (
+  block: Blockly.Block,
+  code: string,
+  opt_thisOnly?: boolean,
+): string {
+  const nextBlock = block.nextConnection && block.nextConnection.targetBlock()
+  if (nextBlock && !opt_thisOnly) {
+    return code + this.blockToCode(nextBlock)
+  }
+  return code
+}
+
 // ── Helper ───────────────────────────────────────────────────────────────────
 
 /**
