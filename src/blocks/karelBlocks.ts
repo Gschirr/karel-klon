@@ -1,4 +1,5 @@
 import * as Blockly from 'blockly'
+import type { Level } from '../engine/types'
 
 // ── Block definitions (JSON format for defineBlocksWithJsonArray) ──────────
 
@@ -193,14 +194,15 @@ const SEP = { kind: 'sep', gap: '24' }
  * - Level 1: Command blocks only
  * - Level 2: Commands + Loop block
  * - Level 3: Commands + Loop + If/Else + Condition blocks
+ * - Level 4: Commands + Loop + If/Else + all Condition blocks (same as Sandbox)
  * - Sandbox: All blocks including unused condition blocks
  */
-export function getToolboxForLevel(level: 1 | 2 | 3, sandbox = false): object {
+export function getToolboxForLevel(level: Level, sandbox = false): object {
   const commands = level === 1
     ? [commandBlocksBase[0], commandBlocksBase[1], rechtsUmBlock, ...commandBlocksBase.slice(2)]
     : [...commandBlocksBase]
 
-  const conditions = sandbox
+  const conditions = (level >= 4 || sandbox)
     ? [...conditionBlocks, ...sandboxOnlyConditionBlocks]
     : conditionBlocks
 

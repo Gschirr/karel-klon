@@ -1,3 +1,6 @@
+// Difficulty level (1 = basics, 2 = loops, 3 = conditionals, 4 = pro)
+export type Level = 1 | 2 | 3 | 4
+
 // Direction Karel can face
 export type Direction = 'north' | 'south' | 'east' | 'west'
 
@@ -23,7 +26,7 @@ export type WorldState = {
 // Task definition loaded from tasks.json
 export type TaskDefinition = {
   id: string
-  level: 1 | 2 | 3
+  level: Level
   title: string
   description: string
   hint?: string
@@ -84,7 +87,7 @@ export type ValidationResult = {
 
 export type ProgressState = {
   solved: string[]          // Array of solved task IDs
-  unlockedLevel: 1 | 2 | 3
+  unlockedLevel: Level
   allUnlocked: boolean      // Betreuer-Freischaltung via Ctrl+Shift+U
 }
 

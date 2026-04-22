@@ -478,5 +478,96 @@
         }
       ]
     }
+  },
+  {
+    "id": "L4-01",
+    "level": 4,
+    "title": "Hindernislauf",
+    "description": "Rex laeuft nach rechts, aber Waende blockieren den Weg! Wenn er nicht weiterkommt, muss er drumherum: einen Schritt hoch, einen vor und wieder runter. Benutze eine Schleife mit wenn/sonst und vielen Befehlen im Sonst-Teil!",
+    "hint": "Im Sonst-Teil: links drehen, vorwaerts, rechts drehen, vorwaerts, rechts drehen, vorwaerts, links drehen. Das bringt Rex um die Wand herum!",
+    "grid": {
+      "walls": [
+        { "x": 2, "y": 2, "side": "east" },
+        { "x": 5, "y": 2, "side": "east" }
+      ],
+      "beepers": [
+        { "x": 7, "y": 2 }
+      ]
+    },
+    "karel": {
+      "position": { "x": 0, "y": 2 },
+      "direction": "east"
+    },
+    "goal": {
+      "karel": {
+        "position": { "x": 7, "y": 2 }
+      },
+      "beepers": []
+    }
+  },
+  {
+    "id": "L4-02",
+    "level": 4,
+    "title": "Beeper-Quadrat",
+    "description": "Rex soll ein Quadrat aus Beepern legen - 12 Beeper bilden den Rahmen! Jede Seite sieht gleich aus: dreimal ablegen und vorwaerts, dann rechts drehen. Tipp: Benutze eine Schleife in einer Schleife!",
+    "hint": "Aeussere Schleife: wiederhole 4 Mal (vier Seiten). Innere Schleife: wiederhole 3 Mal ablegen und vorwaerts. Nach der inneren Schleife: rechts drehen.",
+    "grid": {
+      "walls": [],
+      "beepers": []
+    },
+    "karel": {
+      "position": { "x": 0, "y": 0 },
+      "direction": "east"
+    },
+    "goal": {
+      "karel": {
+        "position": { "x": 0, "y": 0 },
+        "direction": "east"
+      },
+      "beepers": [
+        { "x": 0, "y": 0 },
+        { "x": 1, "y": 0 },
+        { "x": 2, "y": 0 },
+        { "x": 3, "y": 0 },
+        { "x": 3, "y": 1 },
+        { "x": 3, "y": 2 },
+        { "x": 3, "y": 3 },
+        { "x": 2, "y": 3 },
+        { "x": 1, "y": 3 },
+        { "x": 0, "y": 3 },
+        { "x": 0, "y": 2 },
+        { "x": 0, "y": 1 }
+      ]
+    }
+  },
+  {
+    "id": "L4-03",
+    "level": 4,
+    "title": "Labyrinth",
+    "description": "Rex steht vor einem Labyrinth! Die Regel: Versuche immer zuerst nach rechts zu gehen. Wenn rechts eine Wand ist, geh geradeaus. Wenn auch dort eine Wand ist, dreh dich nach links. Finde den Beeper!",
+    "hint": "Benutze wenn/sonst IN wenn/sonst! Aussen: wenn rechts frei, rechts drehen und vorwaerts. Im Sonst-Teil: wenn vorne frei, vorwaerts. Sonst: links drehen.",
+    "grid": {
+      "walls": [
+        { "x": 0, "y": 0, "side": "south" },
+        { "x": 1, "y": 0, "side": "south" },
+        { "x": 1, "y": 1, "side": "east" },
+        { "x": 1, "y": 2, "side": "east" },
+        { "x": 2, "y": 2, "side": "south" },
+        { "x": 3, "y": 2, "side": "south" }
+      ],
+      "beepers": [
+        { "x": 4, "y": 3 }
+      ]
+    },
+    "karel": {
+      "position": { "x": 0, "y": 0 },
+      "direction": "east"
+    },
+    "goal": {
+      "karel": {
+        "position": { "x": 4, "y": 3 }
+      },
+      "beepers": []
+    }
   }
 ]

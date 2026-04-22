@@ -35,6 +35,7 @@ export const config = {
         'Toll! Du beherrschst die Grundlagen!',
         'Genial! Schleifen sind kein Problem für dich!',
         'Wow! Du denkst schon wie eine echte Programmiererin!',
+        'Unglaublich! Du bist jetzt ein echter Profi!',
       ],
     },
   },

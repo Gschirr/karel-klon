@@ -1,4 +1,4 @@
-import type { ProgressState, TaskDefinition } from './types'
+import type { Level, ProgressState, TaskDefinition } from './types'
 
 const STORAGE_KEY = 'karel-progress'
 
@@ -15,7 +15,7 @@ export function loadProgress(): ProgressState {
     const parsed = JSON.parse(raw)
     return {
       solved: Array.isArray(parsed.solved) ? parsed.solved : [],
-      unlockedLevel: [1, 2, 3].includes(parsed.unlockedLevel) ? parsed.unlockedLevel : 1,
+      unlockedLevel: ([1, 2, 3, 4] as Level[]).includes(parsed.unlockedLevel) ? parsed.unlockedLevel : 1,
       allUnlocked: parsed.allUnlocked === true,
     }
   } catch {
@@ -36,11 +36,14 @@ export function saveProgress(progress: ProgressState): void {
  * L2 unlocks when ALL 4 L1 tasks are solved.
  * L3 unlocks when ALL 4 L2 tasks are solved.
  */
-export function computeUnlockedLevel(solved: string[], allTasks: TaskDefinition[]): 1 | 2 | 3 {
+export function computeUnlockedLevel(solved: string[], allTasks: TaskDefinition[]): Level {
   const l1Tasks = allTasks.filter(t => t.level === 1)
   const l2Tasks = allTasks.filter(t => t.level === 2)
+  const l3Tasks = allTasks.filter(t => t.level === 3)
   const allL1Solved = l1Tasks.every(t => solved.includes(t.id))
   const allL2Solved = l2Tasks.every(t => solved.includes(t.id))
+  const allL3Solved = l3Tasks.every(t => solved.includes(t.id))
+  if (allL3Solved && allL2Solved && allL1Solved) return 4
   if (allL2Solved && allL1Solved) return 3
   if (allL1Solved) return 2
   return 1
@@ -74,7 +77,7 @@ export function markSolved(
  * Unlocks all tasks (Betreuer shortcut).
  */
 export function unlockAll(currentProgress: ProgressState): ProgressState {
-  const newProgress = { ...currentProgress, allUnlocked: true, unlockedLevel: 3 as const }
+  const newProgress = { ...currentProgress, allUnlocked: true, unlockedLevel: 4 as const }
   saveProgress(newProgress)
   return newProgress
 }

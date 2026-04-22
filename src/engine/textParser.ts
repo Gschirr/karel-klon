@@ -1,4 +1,4 @@
-import type { ASTNode, CommandName, ConditionName, Program } from './types'
+import type { ASTNode, CommandName, ConditionName, Level, Program } from './types'
 
 // ── Mapping tables (reverse of karelGenerator's COMMAND_LABELS / CONDITION_LABELS) ──
 
@@ -279,14 +279,16 @@ export type ParseResult =
   | { ok: true; program: Program }
   | { ok: false; error: string }
 
-// Commands/conditions allowed per level (mirrors karelBlocks.ts getToolboxForLevel)
-const ALLOWED_COMMANDS: Record<1 | 2 | 3, Set<string>> = {
-  1: new Set(['vorwärts', 'links_um', 'rechts_um', 'aufheben', 'ablegen']),
-  2: new Set(['vorwärts', 'links_um', 'aufheben', 'ablegen']),
-  3: new Set(['vorwärts', 'links_um', 'aufheben', 'ablegen']),
+// Commands allowed per level (mirrors karelBlocks.ts getToolboxForLevel)
+const BASE_COMMANDS = new Set(['vorwärts', 'links_um', 'aufheben', 'ablegen'])
+const ALLOWED_COMMANDS: Record<Level, Set<string>> = {
+  1: new Set([...BASE_COMMANDS, 'rechts_um']),
+  2: BASE_COMMANDS,
+  3: BASE_COMMANDS,
+  4: BASE_COMMANDS,
 }
 
-function validateLevel(program: ASTNode[], level: 1 | 2 | 3): void {
+function validateLevel(program: ASTNode[], level: Level): void {
   const allowed = ALLOWED_COMMANDS[level]
   for (const node of program) {
     if (node.type === 'command') {
@@ -315,7 +317,7 @@ function validateLevel(program: ASTNode[], level: 1 | 2 | 3): void {
 }
 
 /** Parse German pseudo-code into a Program AST. Throws on syntax errors. */
-export function parseText(text: string, level?: 1 | 2 | 3): Program {
+export function parseText(text: string, level?: Level): Program {
   if (!text.trim()) return []
   const tokens = tokenize(text)
   const parser = new Parser(tokens)
@@ -325,7 +327,7 @@ export function parseText(text: string, level?: 1 | 2 | 3): Program {
 }
 
 /** Parse German pseudo-code into a Program AST. Never throws. */
-export function tryParseText(text: string, level?: 1 | 2 | 3): ParseResult {
+export function tryParseText(text: string, level?: Level): ParseResult {
   try {
     return { ok: true, program: parseText(text, level) }
   } catch (e) {

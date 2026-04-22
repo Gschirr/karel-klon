@@ -2,11 +2,11 @@ import * as Blockly from 'blockly'
 import { useState, useEffect, useRef } from 'react'
 import { generateDisplayCode, generateProgram } from '../../blocks/karelGenerator'
 import { parseText, tryParseText } from '../../engine/textParser'
-import type { Program } from '../../engine/types'
+import type { Level, Program } from '../../engine/types'
 import { BlockEditor } from './BlockEditor'
 
 interface EditorProps {
-  level: 1 | 2 | 3
+  level: Level
   taskId: string
   sandbox: boolean
   workspaceRef: React.MutableRefObject<Blockly.WorkspaceSvg | null>
@@ -280,7 +280,7 @@ export function Editor({ level, taskId, sandbox, workspaceRef, getProgramRef }: 
                   >
                     wenn ... dann {'{}'}
                   </button>
-                  {['auf_beeper()', 'vorne_frei()', ...(sandbox ? ['beeper_voraus()', 'links_frei()', 'rechts_frei()'] : [])].map(cond => (
+                  {['auf_beeper()', 'vorne_frei()', ...((level >= 4 || sandbox) ? ['beeper_voraus()', 'links_frei()', 'rechts_frei()'] : [])].map(cond => (
                     <div key={cond} className="px-2 py-0.5 font-mono text-orange-600">
                       {cond}
                     </div>

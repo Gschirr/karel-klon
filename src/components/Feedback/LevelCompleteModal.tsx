@@ -40,6 +40,12 @@ const LEVEL_THEME: Record<number, {
     buttonClass: 'bg-purple-500 hover:bg-purple-600 active:bg-purple-700',
     icon: '🏆',
   },
+  4: {
+    badgeClass: 'bg-red-100 text-red-700 border-red-400',
+    headingClass: 'text-red-600',
+    buttonClass: 'bg-red-500 hover:bg-red-600 active:bg-red-700',
+    icon: '👑',
+  },
 }
 
 export default function LevelCompleteModal({

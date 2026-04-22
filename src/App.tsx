@@ -88,7 +88,7 @@ function buildSandboxTask(
 ): TaskDefinition {
   return {
     id: 'sandbox',
-    level: 3,
+    level: 4,
     title: 'Sandbox',
     description: 'Dein eigenes Level!',
     grid: {
@@ -831,7 +831,7 @@ export default function App() {
           {/* Column 3: Blockly Editor */}
           <section className="bg-white overflow-hidden flex flex-col">
             <Editor
-              level={state.sandboxMode ? 3 : (state.currentTask?.level ?? 1)}
+              level={state.sandboxMode ? 4 : (state.currentTask?.level ?? 1)}
               taskId={state.sandboxMode ? '__sandbox__' : (state.currentTask?.id ?? '')}
               sandbox={state.sandboxMode}
               workspaceRef={workspaceRef}
@@ -890,7 +890,7 @@ export default function App() {
             level={state.feedback.level ?? 1}
             message={state.feedback.message}
             onClose={() => dispatch({ type: 'SET_FEEDBACK', feedback: null })}
-            hasNextLevel={(state.feedback.level ?? 1) < 3}
+            hasNextLevel={(state.feedback.level ?? 1) < 4}
           />
         )}
 

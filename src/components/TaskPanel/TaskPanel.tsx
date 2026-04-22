@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { TaskDefinition } from '../../engine/types'
+import type { Level, TaskDefinition } from '../../engine/types'
 
 interface TaskPanelProps {
   tasks: TaskDefinition[]
@@ -10,10 +10,11 @@ interface TaskPanelProps {
   onEnterSandbox?: () => void
 }
 
-const LEVEL_META: Record<1 | 2 | 3, { label: string; badgeClass: string }> = {
+const LEVEL_META: Record<Level, { label: string; badgeClass: string }> = {
   1: { label: 'Erste Schritte', badgeClass: 'bg-blue-100 text-blue-700' },
   2: { label: 'Schleifen',      badgeClass: 'bg-green-100 text-green-700' },
   3: { label: 'Bedingungen',    badgeClass: 'bg-orange-100 text-orange-700' },
+  4: { label: 'Profi',          badgeClass: 'bg-red-100 text-red-700' },
 }
 
 /** Truncate a string to at most `maxLen` characters, appending "…" if cut. */
@@ -41,7 +42,7 @@ export default function TaskPanel({
   const currentTask = tasks.find((t) => t.id === currentTaskId) ?? null
 
   // Group tasks by level in sorted order
-  const levels = ([1, 2, 3] as const).filter((lvl) =>
+  const levels = ([1, 2, 3, 4] as const).filter((lvl) =>
     tasks.some((t) => t.level === lvl),
   )
 

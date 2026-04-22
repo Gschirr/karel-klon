@@ -2,12 +2,13 @@ import * as Blockly from 'blockly'
 import { useEffect, useRef } from 'react'
 import { registerKarelBlocks, getToolboxForLevel } from '../../blocks/karelBlocks'
 import { useGame } from '../../App'
+import type { Level } from '../../engine/types'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ToolboxDef = any
 
 interface BlockEditorProps {
-  level: 1 | 2 | 3
+  level: Level
   onWorkspaceChange?: (workspace: Blockly.WorkspaceSvg) => void
   workspaceRef?: React.MutableRefObject<Blockly.WorkspaceSvg | null>
 }
