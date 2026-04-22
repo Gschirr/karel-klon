@@ -23,6 +23,8 @@ import SandboxToolbar from './components/Sandbox/SandboxToolbar'
 import { exportSandbox, importSandbox } from './components/Sandbox/sandboxExport'
 import type { SandboxTool, SandboxGoalState } from './components/Sandbox/sandboxTypes'
 import tasksJson from './tasks/tasks.json'
+import { Eye, EyeOff } from 'lucide-react'
+import karelSvg from './assets/karel.svg'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -704,17 +706,42 @@ export default function App() {
 
   // ─── Render ─────────────────────────────────────────────────────────────────
 
+  const LEVEL_PILL_COLORS: Record<number, { text: string; border: string }> = {
+    1: { text: '#4F46E5', border: '#C7D2FE' },
+    2: { text: '#059669', border: '#A7F3D0' },
+    3: { text: '#D97706', border: '#FDE68A' },
+    4: { text: '#E11D48', border: '#FECDD3' },
+  }
+  const pillColor = state.sandboxMode
+    ? { text: '#7C3AED', border: '#DDD6FE' }
+    : LEVEL_PILL_COLORS[state.currentTask?.level ?? 1] ?? LEVEL_PILL_COLORS[1]
+
   return (
     <GameContext.Provider value={contextValue}>
-      <div className="h-screen flex flex-col overflow-hidden bg-gray-100">
+      <div className="h-screen flex flex-col overflow-hidden" style={{ background: 'var(--color-bg)' }}>
 
         {/* Header */}
         <header
-          className="flex-none bg-white border-b border-gray-200 px-6 flex items-center justify-between"
-          style={{ height: '52px' }}
+          className="flex-none px-6 flex items-center justify-between"
+          style={{
+            height: '56px',
+            background: 'var(--color-bg)',
+            borderBottom: '3px solid var(--color-border)',
+          }}
         >
-          <h1 className="text-xl font-bold text-gray-800">Rex der Dino</h1>
-          <span className="text-sm text-gray-600 font-medium">
+          <div className="flex items-center gap-2">
+            <img src={karelSvg} alt="" className="w-7 h-7" />
+            <h1
+              className="text-xl font-bold"
+              style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}
+            >
+              Rex der Dino
+            </h1>
+          </div>
+          <span
+            className="clay-card text-sm font-semibold px-4 py-1.5"
+            style={{ borderRadius: '9999px', fontFamily: 'var(--font-heading)', color: pillColor.text, borderColor: pillColor.border }}
+          >
             {state.sandboxMode ? 'Sandbox' : (state.currentTask?.title ?? '')}
           </span>
           <div className="flex items-center gap-3">
@@ -730,7 +757,8 @@ export default function App() {
                   dispatch({ type: 'SET_PROGRESS', progress: loadProgress() })
                 }
               }}
-              className="text-xs px-2 py-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+              className="clay-button text-xs px-3 py-1.5 bg-white hover:bg-orange-50 hover:text-orange-600"
+              style={{ borderColor: 'var(--color-border)' }}
               title="Fortschritt zurücksetzen"
             >
               Zurücksetzen
@@ -741,11 +769,17 @@ export default function App() {
         {/* Main — 3 columns */}
         <main
           className="flex-1 overflow-hidden grid"
-          style={{ gridTemplateColumns: '220px 3fr 2fr' }}
+          style={{ gridTemplateColumns: '260px 5fr 4fr' }}
         >
 
           {/* Column 1: Task panel */}
-          <aside className="bg-white border-r border-gray-200 overflow-hidden">
+          <aside
+            className="overflow-hidden"
+            style={{
+              background: 'var(--color-bg)',
+              boxShadow: '2px 0 0 0 var(--color-border)',
+            }}
+          >
             <TaskPanel
               tasks={allTasks}
               currentTaskId={state.sandboxMode ? null : (state.currentTask?.id ?? null)}
@@ -757,12 +791,15 @@ export default function App() {
           </aside>
 
           {/* Column 2: Grid + Karel */}
-          <section className="bg-gray-50 border-r border-gray-200 overflow-hidden flex flex-col">
+          <section className="overflow-hidden flex flex-col"
+                   style={{ background: 'var(--color-bg)', borderRight: '3px solid var(--color-border)' }}>
             {state.sandboxMode && state.sandboxEditMode ? (
               <SandboxToolbar />
             ) : (
-              <div className="px-4 py-3 border-b border-gray-100 bg-white shrink-0 flex items-center justify-between">
-                <h2 className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+              <div className="px-4 py-3 shrink-0 flex items-center justify-between"
+                   style={{ borderBottom: '2px solid var(--color-border)' }}>
+                <h2 className="text-sm font-semibold uppercase tracking-wide"
+                    style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-fg)' }}>
                   {state.sandboxMode ? 'Sandbox' : 'Welt'}
                 </h2>
                 <div className="flex items-center gap-2">
@@ -776,16 +813,23 @@ export default function App() {
                   )}
                   <button
                     onClick={() => dispatch({ type: 'TOGGLE_GOAL' })}
-                    className={`text-xs px-2 py-1 rounded ${state.showGoal ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                    className={[
+                      'clay-button text-xs px-3 py-1.5 flex items-center gap-1',
+                      state.showGoal ? 'bg-indigo-50 text-indigo-700' : 'bg-white text-gray-600',
+                    ].join(' ')}
+                    style={{ borderColor: state.showGoal ? '#a5b4fc' : 'var(--color-border)' }}
                     title="Zielzustand ein-/ausblenden"
                   >
-                    {state.showGoal ? '👁 Ziel ausblenden' : '👁 Ziel anzeigen'}
+                    {state.showGoal ? <EyeOff size={14} /> : <Eye size={14} />}
+                    <span>{state.showGoal ? 'Ziel ausblenden' : 'Ziel anzeigen'}</span>
                   </button>
                 </div>
               </div>
             )}
             <div className="flex-1 overflow-hidden p-4 flex flex-col items-center justify-center gap-3 relative">
               <div className="w-full flex-1 flex items-center justify-center min-h-0">
+                <div className="clay-card p-2 w-full h-full overflow-hidden"
+                     style={{ borderRadius: 'var(--clay-radius-lg)' }}>
                 {state.sandboxMode && state.sandboxEditMode ? (
                   <SandboxGrid
                     worldState={state.worldState}
@@ -807,6 +851,7 @@ export default function App() {
                     isError={state.feedback?.type === 'error'}
                   />
                 )}
+                </div>
               </div>
 
               {/* Inline feedback bar for failure / error (floating overlay) */}
@@ -829,7 +874,7 @@ export default function App() {
           </section>
 
           {/* Column 3: Blockly Editor */}
-          <section className="bg-white overflow-hidden flex flex-col">
+          <section className="overflow-hidden flex flex-col" style={{ background: 'white' }}>
             <Editor
               level={state.sandboxMode ? 4 : (state.currentTask?.level ?? 1)}
               taskId={state.sandboxMode ? '__sandbox__' : (state.currentTask?.id ?? '')}
@@ -843,13 +888,18 @@ export default function App() {
 
         {/* Footer: Controls */}
         <footer
-          className="flex-none bg-white border-t border-gray-200 px-6 flex items-center justify-center gap-4"
-          style={{ height: '60px' }}
+          className="flex-none px-6 flex items-center justify-center gap-4"
+          style={{
+            height: '64px',
+            background: 'white',
+            borderTop: '3px solid var(--color-border)',
+          }}
         >
           {state.sandboxMode && state.sandboxEditMode ? (
             <button
               onClick={onSandboxStartRun}
-              className="px-6 py-2 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors"
+              className="clay-button px-6 py-2.5 text-white text-base"
+              style={{ background: 'var(--color-success)', borderColor: '#15803d' }}
             >
               Testen
             </button>

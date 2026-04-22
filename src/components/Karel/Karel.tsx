@@ -56,15 +56,21 @@ export default function Karel({ position, direction, animationDuration = 200, is
         >
           {/* Error indicator above Karel */}
           {isError && (
-            <text
-              x={0}
-              y={-size / 2 - 4}
-              textAnchor="middle"
-              fontSize={size * 0.4}
-              aria-label="Fehler"
-            >
-              ❗
-            </text>
+            <g aria-label="Fehler">
+              <circle cx={0} cy={-size / 2 - 6} r={size * 0.18} fill="#DC2626" />
+              <text
+                x={0}
+                y={-size / 2 - 6}
+                textAnchor="middle"
+                dominantBaseline="central"
+                fontSize={size * 0.22}
+                fill="white"
+                fontWeight="bold"
+                fontFamily="sans-serif"
+              >
+                !
+              </text>
+            </g>
           )}
 
           {/* Image is drawn offset so that (0,0) in this group is Karel's center */}

@@ -29,7 +29,7 @@ export const config = {
       timeout: 'Rex dreht sich im Kreis! Dein Programm läuft zu lange.',
     },
     success: {
-      taskComplete: 'Super! Rex hat es geschafft! 🎉',
+      taskComplete: 'Super! Rex hat es geschafft!',
       taskFailed: 'Fast geschafft! Probier es nochmal!',
       levelComplete: [
         'Toll! Du beherrschst die Grundlagen!',

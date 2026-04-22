@@ -1,20 +1,61 @@
 @import "tailwindcss";
 
+/* ================================================================
+   DESIGN TOKENS
+   Alle Farben, Groessen und Effekte als CSS Custom Properties.
+   Diese Variablen werden in allen Komponenten verwendet.
+   ================================================================ */
+
 :root {
-  --color-primary: #0066CC;
-  --color-success: #4CAF50;
-  --color-warning: #FF9800;
-  --color-grid-bg: #FFFFFF;
+  /* ---- Farbpalette (Educational App: Indigo + Orange) ---- */
+  --color-primary: #4F46E5;
+  --color-on-primary: #FFFFFF;
+  --color-secondary: #818CF8;
+  --color-accent: #EA580C;
+  --color-bg: #EEF2FF;
+  --color-fg: #1E1B4B;
+  --color-muted: #EBEEF8;
+  --color-border: #C7D2FE;
+  --color-destructive: #DC2626;
+  --color-success: #16A34A;
+
+  /* ---- MCI Grid-Farben (unveraendert, Branding!) ---- */
+  --color-cell-a: #ffe0b2;
+  --color-cell-b: #b3cce0;
   --color-grid-line: #E0E0E0;
   --color-wall: #333333;
-  --color-cell-a: #ffe0b2;  /* MCI Orange soft */
-  --color-cell-b: #b3cce0;  /* MCI Blue soft */
+
+  /* ---- Clay-Effekt-Tokens ---- */
+  --clay-border: 3px;
+  --clay-radius-sm: 12px;
+  --clay-radius-md: 16px;
+  --clay-radius-lg: 24px;
+  --clay-shadow:
+    4px 4px 0 0 rgba(30, 27, 75, 0.10),
+    inset 0 -2px 0 0 rgba(30, 27, 75, 0.06),
+    inset 0 2px 0 0 rgba(255, 255, 255, 0.5);
+  --clay-shadow-sm:
+    2px 2px 0 0 rgba(30, 27, 75, 0.08),
+    inset 0 -1px 0 0 rgba(30, 27, 75, 0.05),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+  --clay-shadow-pressed:
+    1px 1px 0 0 rgba(30, 27, 75, 0.06),
+    inset 0 2px 4px 0 rgba(30, 27, 75, 0.12);
+
+  /* ---- Schriften ---- */
+  --font-heading: 'Fredoka', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Nunito', 'Segoe UI', system-ui, sans-serif;
 }
+
+/* ================================================================
+   GLOBALE STYLES
+   ================================================================ */
 
 body {
   margin: 0;
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: #F5F5F5;
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-fg);
   overflow: hidden;
   height: 100vh;
 }
@@ -25,6 +66,82 @@ body {
   flex-direction: column;
 }
 
+/* ================================================================
+   CLAY UTILITY CLASSES
+   Wiederverwendbare Klassen fuer den Claymorphism-Look.
+   Werden in den Komponenten als className verwendet.
+   ================================================================ */
+
+.clay-card {
+  background: white;
+  border: var(--clay-border) solid var(--color-border);
+  border-radius: var(--clay-radius-md);
+  box-shadow: var(--clay-shadow);
+}
+
+.clay-button {
+  border: var(--clay-border) solid transparent;
+  border-radius: var(--clay-radius-sm);
+  box-shadow: var(--clay-shadow-sm);
+  transition: all 200ms ease-out;
+  font-family: var(--font-body);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.clay-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--clay-shadow);
+}
+
+.clay-button:active {
+  transform: translateY(1px);
+  box-shadow: var(--clay-shadow-pressed);
+}
+
+.clay-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: var(--clay-shadow-sm);
+}
+
+/* ================================================================
+   BLOCKLY OVERRIDES
+   ================================================================ */
+
 .blocklyToolboxDiv {
-  background: #f8f9fa !important;
+  background: var(--color-bg) !important;
+  border-right: var(--clay-border) solid var(--color-border) !important;
+}
+
+.blocklyFlyoutBackground {
+  fill: var(--color-muted) !important;
+}
+
+/* ================================================================
+   ANIMATIONEN
+   ================================================================ */
+
+@keyframes slideDown {
+  0%   { transform: translateY(-12px) scale(0.98); opacity: 0; }
+  100% { transform: translateY(0) scale(1);        opacity: 1; }
+}
+
+@keyframes modalPop {
+  0%   { transform: scale(0.8) translateY(20px); opacity: 0; }
+  50%  { transform: scale(1.05) translateY(-4px); opacity: 1; }
+  70%  { transform: scale(0.98) translateY(0); }
+  100% { transform: scale(1) translateY(0);    opacity: 1; }
+}
+
+/* ================================================================
+   FEINSCHLIFF-ANIMATIONEN
+   ================================================================ */
+
+.task-item-hover {
+  transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+}
+.task-item-hover:hover {
+  transform: translateX(2px);
 }

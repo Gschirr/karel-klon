@@ -27,7 +27,7 @@ export function BlockEditor({ level, onWorkspaceChange, workspaceRef }: BlockEdi
 
     const workspace = Blockly.inject(containerRef.current, {
       toolbox: getToolboxForLevel(level, sandbox) as ToolboxDef,
-      grid: { spacing: 20, length: 3, colour: '#ccc', snap: true },
+      grid: { spacing: 20, length: 3, colour: '#C7D2FE', snap: true },
       trashcan: true,
       scrollbars: true,
       zoom: {

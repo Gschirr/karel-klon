@@ -4,6 +4,7 @@ import { generateDisplayCode, generateProgram } from '../../blocks/karelGenerato
 import { parseText, tryParseText } from '../../engine/textParser'
 import type { Level, Program } from '../../engine/types'
 import { BlockEditor } from './BlockEditor'
+import { Trash2 } from 'lucide-react'
 
 interface EditorProps {
   level: Level
@@ -178,28 +179,31 @@ export function Editor({ level, taskId, sandbox, workspaceRef, getProgramRef }: 
   return (
     <div className="flex flex-col w-full h-full">
       {/* Tab bar */}
-      <div className="flex items-center border-b border-gray-200 bg-white shrink-0">
+      <div className="flex items-center shrink-0"
+           style={{ background: 'var(--color-bg)', borderBottom: '3px solid var(--color-border)' }}>
         {/* Tabs */}
         <div className="flex">
           <button
             onClick={switchToBlocks}
             className={[
-              'px-4 py-2 text-sm font-medium transition-colors',
+              'px-5 py-2.5 text-sm font-semibold transition-colors',
               mode === 'blocks'
-                ? 'border-b-2 border-blue-600 text-blue-600 bg-white'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50',
+                ? 'border-b-[3px] border-indigo-600 text-indigo-700 bg-white'
+                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50',
             ].join(' ')}
+            style={{ fontFamily: 'var(--font-heading)' }}
           >
             Blöcke
           </button>
           <button
             onClick={switchToText}
             className={[
-              'px-4 py-2 text-sm font-medium transition-colors',
+              'px-5 py-2.5 text-sm font-semibold transition-colors',
               mode === 'text'
-                ? 'border-b-2 border-blue-600 text-blue-600 bg-white'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50',
+                ? 'border-b-[3px] border-indigo-600 text-indigo-700 bg-white'
+                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50',
             ].join(' ')}
+            style={{ fontFamily: 'var(--font-heading)' }}
           >
             Text
           </button>
@@ -211,10 +215,11 @@ export function Editor({ level, taskId, sandbox, workspaceRef, getProgramRef }: 
         {/* Clear button */}
         <button
           onClick={handleClear}
-          className="flex items-center gap-1.5 px-3 py-1.5 mr-2 text-sm text-gray-500 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+          className="clay-button flex items-center gap-1.5 px-3 py-1.5 mr-2 text-sm bg-white hover:bg-red-50 hover:text-red-600"
+          style={{ borderColor: 'var(--color-border)' }}
           title="Programm löschen"
         >
-          <span>🗑️</span>
+          <Trash2 size={14} />
           <span>Löschen</span>
         </button>
       </div>
@@ -243,15 +248,18 @@ export function Editor({ level, taskId, sandbox, workspaceRef, getProgramRef }: 
         {mode === 'text' && (
           <div className="absolute inset-0 flex bg-white" style={{ zIndex: 2 }}>
             {/* Command reference sidebar */}
-            <div className="w-44 shrink-0 border-r border-gray-200 bg-gray-50 p-3 overflow-y-auto text-xs">
-              <div className="font-semibold text-gray-600 uppercase tracking-wide mb-2">Befehle</div>
+            <div className="w-44 shrink-0 p-3 overflow-y-auto text-xs"
+                 style={{ background: 'var(--color-muted)', borderRight: '3px solid var(--color-border)' }}>
+              <div className="font-semibold uppercase tracking-wide mb-2"
+                   style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-fg)' }}>Befehle</div>
               {(level === 1
                 ? ['vorwärts()', 'links_um()', 'rechts_um()', 'aufheben()', 'ablegen()']
                 : ['vorwärts()', 'links_um()', 'aufheben()', 'ablegen()']
               ).map(cmd => (
                 <button
                   key={cmd}
-                  className="block w-full text-left px-2 py-1 mb-0.5 rounded text-blue-700 bg-blue-50 hover:bg-blue-100 font-mono cursor-pointer transition-colors"
+                  className="clay-button block w-full text-left px-2 py-1 mb-1 font-mono text-indigo-700 bg-indigo-50"
+                  style={{ borderColor: '#c7d2fe' }}
                   title={`${cmd} einfügen`}
                   onClick={() => insertAtCursor(cmd)}
                 >
@@ -260,9 +268,11 @@ export function Editor({ level, taskId, sandbox, workspaceRef, getProgramRef }: 
               ))}
               {level >= 2 && (
                 <>
-                  <div className="font-semibold text-gray-600 uppercase tracking-wide mt-3 mb-2">Schleifen</div>
+                  <div className="font-semibold uppercase tracking-wide mt-3 mb-2"
+                       style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-fg)' }}>Schleifen</div>
                   <button
-                    className="block w-full text-left px-2 py-1 mb-0.5 rounded text-green-700 bg-green-50 hover:bg-green-100 font-mono cursor-pointer transition-colors"
+                    className="clay-button block w-full text-left px-2 py-1 mb-1 font-mono text-emerald-700 bg-emerald-50"
+                    style={{ borderColor: '#6ee7b7' }}
                     title="Schleife einfügen"
                     onClick={() => insertAtCursor('wiederhole 2 mal {\n  \n}')}
                   >
@@ -272,9 +282,11 @@ export function Editor({ level, taskId, sandbox, workspaceRef, getProgramRef }: 
               )}
               {level >= 3 && (
                 <>
-                  <div className="font-semibold text-gray-600 uppercase tracking-wide mt-3 mb-2">Bedingungen</div>
+                  <div className="font-semibold uppercase tracking-wide mt-3 mb-2"
+                       style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-fg)' }}>Bedingungen</div>
                   <button
-                    className="block w-full text-left px-2 py-1 mb-0.5 rounded text-orange-700 bg-orange-50 hover:bg-orange-100 font-mono cursor-pointer transition-colors"
+                    className="clay-button block w-full text-left px-2 py-1 mb-1 font-mono text-amber-700 bg-amber-50"
+                    style={{ borderColor: '#fcd34d' }}
                     title="Wenn/Sonst einfügen"
                     onClick={() => insertAtCursor('wenn vorne_frei() dann {\n  \n}')}
                   >

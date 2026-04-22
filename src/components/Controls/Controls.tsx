@@ -1,4 +1,6 @@
 import type { SpeedSetting } from '../../engine/types'
+import { Snail, Rabbit, Zap, Play, Square, RotateCcw } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 interface ControlsProps {
   speed: SpeedSetting
@@ -10,10 +12,10 @@ interface ControlsProps {
   onStep: () => void
 }
 
-const SPEED_OPTIONS: { value: SpeedSetting; label: string; icon: string; tooltip: string }[] = [
-  { value: 'slow',   label: 'Langsam', icon: '🐢', tooltip: 'Langsame Geschwindigkeit' },
-  { value: 'normal', label: 'Normal',  icon: '🐇', tooltip: 'Normale Geschwindigkeit'  },
-  { value: 'fast',   label: 'Schnell', icon: '⚡', tooltip: 'Schnelle Geschwindigkeit' },
+const SPEED_OPTIONS: { value: SpeedSetting; label: string; Icon: LucideIcon; tooltip: string; activeClass: string; activeBorder: string }[] = [
+  { value: 'slow',   label: 'Langsam', Icon: Snail,  tooltip: 'Langsame Geschwindigkeit', activeClass: 'bg-emerald-500 text-white', activeBorder: '#059669' },
+  { value: 'normal', label: 'Normal',  Icon: Rabbit, tooltip: 'Normale Geschwindigkeit',  activeClass: 'bg-indigo-500 text-white',  activeBorder: '#3730a3' },
+  { value: 'fast',   label: 'Schnell', Icon: Zap,    tooltip: 'Schnelle Geschwindigkeit', activeClass: 'bg-amber-500 text-white',   activeBorder: '#b45309' },
 ]
 
 export default function Controls({
@@ -36,12 +38,13 @@ export default function Controls({
             title="Stopp"
             aria-label="Stopp"
             className={[
-              'min-w-[44px] min-h-[44px] px-4 py-2 rounded-lg text-sm font-semibold',
-              'flex items-center gap-1.5 transition-colors',
-              'bg-red-500 text-white hover:bg-red-600 active:bg-red-700 shadow-sm',
+              'clay-button min-w-[48px] min-h-[48px] px-5 py-2.5 text-sm',
+              'flex items-center gap-1.5',
+              'bg-red-500 text-white',
             ].join(' ')}
+            style={{ borderColor: '#b91c1c' }}
           >
-            <span aria-hidden="true" className="text-base leading-none">⏹</span>
+            <Square size={16} aria-hidden="true" />
             <span>Stopp</span>
           </button>
         ) : (
@@ -50,12 +53,13 @@ export default function Controls({
             title="Start"
             aria-label="Start"
             className={[
-              'min-w-[44px] min-h-[44px] px-4 py-2 rounded-lg text-sm font-semibold',
-              'flex items-center gap-1.5 transition-colors',
-              'bg-green-500 text-white hover:bg-green-600 active:bg-green-700 shadow-sm',
+              'clay-button min-w-[48px] min-h-[48px] px-5 py-2.5 text-sm',
+              'flex items-center gap-1.5',
+              'bg-green-500 text-white',
             ].join(' ')}
+            style={{ borderColor: '#15803d' }}
           >
-            <span aria-hidden="true" className="text-base leading-none">▶</span>
+            <Play size={16} aria-hidden="true" />
             <span>Start</span>
           </button>
         )}
@@ -81,7 +85,7 @@ export default function Controls({
       </div>
 
       {/* Divider */}
-      <div className="w-px h-8 bg-gray-300" role="separator" />
+      <div className="h-8 rounded-full" role="separator" style={{ width: '3px', background: 'var(--color-border)' }} />
 
       {/* Speed selector */}
       <div
@@ -89,28 +93,31 @@ export default function Controls({
         role="group"
         aria-label="Geschwindigkeit"
       >
-        {SPEED_OPTIONS.map(({ value, label, icon, tooltip }) => (
+        {SPEED_OPTIONS.map(({ value, label, Icon, tooltip, activeClass, activeBorder }) => (
           <button
             key={value}
             onClick={() => onSpeedChange(value)}
             title={tooltip}
             aria-pressed={speed === value}
             className={[
-              'min-w-[44px] min-h-[44px] px-3 py-2 rounded-lg text-sm font-medium',
-              'flex items-center gap-1 transition-colors',
+              'clay-button min-w-[48px] min-h-[48px] px-4 py-2.5 text-sm',
+              'flex items-center gap-1',
               speed === value
-                ? 'bg-blue-500 text-white shadow-inner'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200',
+                ? activeClass
+                : 'bg-white text-gray-700',
             ].join(' ')}
+            style={{
+              borderColor: speed === value ? activeBorder : 'var(--color-border)',
+            }}
           >
-            <span aria-hidden="true">{icon}</span>
+            <Icon size={16} aria-hidden="true" />
             <span>{label}</span>
           </button>
         ))}
       </div>
 
       {/* Divider */}
-      <div className="w-px h-8 bg-gray-300" role="separator" />
+      <div className="h-8 rounded-full" role="separator" style={{ width: '3px', background: 'var(--color-border)' }} />
 
       {/* Reset button */}
       <button
@@ -118,15 +125,18 @@ export default function Controls({
         disabled={isRunning}
         title="Zurücksetzen"
         className={[
-          'min-w-[44px] min-h-[44px] px-3 py-2 rounded-lg text-sm font-medium',
-          'flex items-center gap-1 transition-colors',
+          'clay-button min-w-[48px] min-h-[48px] px-4 py-2.5 text-sm',
+          'flex items-center gap-1',
           isRunning
-            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-            : 'bg-gray-100 text-gray-700 hover:bg-red-100 hover:text-red-600',
+            ? 'bg-gray-100 text-gray-400'
+            : 'bg-white text-gray-700 hover:bg-orange-50 hover:text-orange-600',
         ].join(' ')}
+        style={{
+          borderColor: isRunning ? '#d1d5db' : 'var(--color-border)',
+        }}
         aria-label="Zurücksetzen"
       >
-        <span aria-hidden="true" className="text-lg leading-none">↺</span>
+        <RotateCcw size={16} aria-hidden="true" />
         <span>Zurücksetzen</span>
       </button>
     </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { Level, TaskDefinition } from '../../engine/types'
+import { Blocks, ClipboardList, Lightbulb, Star } from 'lucide-react'
 
 interface TaskPanelProps {
   tasks: TaskDefinition[]
@@ -10,11 +11,19 @@ interface TaskPanelProps {
   onEnterSandbox?: () => void
 }
 
-const LEVEL_META: Record<Level, { label: string; badgeClass: string }> = {
-  1: { label: 'Erste Schritte', badgeClass: 'bg-blue-100 text-blue-700' },
-  2: { label: 'Schleifen',      badgeClass: 'bg-green-100 text-green-700' },
-  3: { label: 'Bedingungen',    badgeClass: 'bg-orange-100 text-orange-700' },
-  4: { label: 'Profi',          badgeClass: 'bg-red-100 text-red-700' },
+const LEVEL_META: Record<Level, {
+  label: string
+  bgClass: string
+  borderClass: string
+  textClass: string
+  activeBorderClass: string
+  activeBgClass: string
+  activeTextClass: string
+}> = {
+  1: { label: 'Erste Schritte', bgClass: 'bg-indigo-100',  borderClass: 'border-indigo-300',  textClass: 'text-indigo-700',  activeBorderClass: 'border-indigo-500',  activeBgClass: 'bg-indigo-50',  activeTextClass: 'text-indigo-800' },
+  2: { label: 'Schleifen',      bgClass: 'bg-emerald-100', borderClass: 'border-emerald-300', textClass: 'text-emerald-700', activeBorderClass: 'border-emerald-500', activeBgClass: 'bg-emerald-50', activeTextClass: 'text-emerald-800' },
+  3: { label: 'Bedingungen',    bgClass: 'bg-amber-100',   borderClass: 'border-amber-300',   textClass: 'text-amber-700',   activeBorderClass: 'border-amber-500',   activeBgClass: 'bg-amber-50',   activeTextClass: 'text-amber-800' },
+  4: { label: 'Profi',          bgClass: 'bg-rose-100',    borderClass: 'border-rose-300',    textClass: 'text-rose-700',    activeBorderClass: 'border-rose-500',    activeBgClass: 'bg-rose-50',    activeTextClass: 'text-rose-800' },
 }
 
 /** Truncate a string to at most `maxLen` characters, appending "…" if cut. */
@@ -47,13 +56,14 @@ export default function TaskPanel({
   )
 
   return (
-    <div className="flex flex-col h-full overflow-hidden bg-white">
+    <div className="flex flex-col h-full overflow-hidden" style={{ background: 'var(--color-bg)' }}>
       {/* ── Current Task / Sandbox Description ─────────────────── */}
-      <div className="flex-shrink-0 p-4 border-b border-gray-200 bg-gray-50">
+      <div className="flex-shrink-0 p-3">
+        <div className="clay-card p-4">
         {sandboxMode ? (
           <>
             <h2 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-purple-600 mb-2">
-              <span aria-hidden="true">🧩</span>
+              <Blocks size={14} aria-hidden="true" />
               Sandbox
             </h2>
             <p className="text-sm text-gray-700 leading-relaxed">
@@ -63,13 +73,14 @@ export default function TaskPanel({
         ) : (
           <>
             <h2 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-gray-500 mb-2">
-              <span aria-hidden="true">📋</span>
+              <ClipboardList size={14} aria-hidden="true" />
               Aufgabe
             </h2>
 
             {currentTask ? (
               <>
-                <p className="text-sm font-bold text-gray-800 mb-1">{currentTask.title}</p>
+                <p className="text-base font-bold mb-1"
+                   style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}>{currentTask.title}</p>
                 <p className="text-sm text-gray-700 leading-relaxed">{currentTask.description}</p>
 
                 {currentTask.hint && (
@@ -79,12 +90,13 @@ export default function TaskPanel({
                       className="flex items-center gap-1 text-xs font-medium text-amber-600 hover:text-amber-700 transition-colors"
                       aria-expanded={hintOpen}
                     >
-                      <span aria-hidden="true">💡</span>
+                      <Lightbulb size={14} aria-hidden="true" />
                       <span>Tipp {hintOpen ? '▲' : '▼'}</span>
                     </button>
 
                     {hintOpen && (
-                      <p className="mt-1.5 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-2 leading-relaxed">
+                      <p className="mt-1.5 text-xs text-amber-700 bg-amber-50 rounded-lg px-3 py-2 leading-relaxed"
+                         style={{ border: '2px solid #fbbf24', borderLeft: '5px solid #f59e0b' }}>
                         {currentTask.hint}
                       </p>
                     )}
@@ -96,28 +108,31 @@ export default function TaskPanel({
             )}
           </>
         )}
+        </div>  {/* clay-card */}
       </div>
 
       {/* ── Task List ────────────────────────────────────────────── */}
       <div className="flex-1 overflow-y-auto">
         {levels.map((level) => {
           const levelTasks = tasks.filter((t) => t.level === level)
-          const { label, badgeClass } = LEVEL_META[level]
+          const { label, bgClass, borderClass, textClass } = LEVEL_META[level]
 
           return (
             <section key={level} aria-label={`Level ${level} — ${label}`}>
               {/* Level header */}
-              <div className="sticky top-0 z-10 flex items-center gap-2 px-4 py-2 bg-white border-b border-gray-100 shadow-sm">
-                <span
-                  className={[
-                    'inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold',
-                    badgeClass,
-                  ].join(' ')}
+              <div
+                className="sticky top-0 z-10 flex items-center gap-2.5 px-4 py-2.5"
+                style={{ background: 'var(--color-bg)', borderTop: '2px solid var(--color-border)', borderBottom: '2px solid var(--color-border)', boxShadow: '0 2px 6px rgba(30,27,75,0.08)' }}
+              >
+                <span className={[
+                  'inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold border-2',
+                  bgClass, borderClass, textClass,
+                ].join(' ')}
                   aria-hidden="true"
                 >
                   {level}
                 </span>
-                <span className="text-sm font-semibold text-gray-700">
+                <span className="text-sm font-semibold" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-fg)' }}>
                   Level {level} — {label}
                 </span>
               </div>
@@ -135,34 +150,33 @@ export default function TaskPanel({
                         onClick={() => onSelectTask(task)}
                         aria-current={isActive ? 'true' : undefined}
                         className={[
-                          'w-full text-left px-4 py-3 border-l-4 transition-colors',
-                          'hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-400',
+                          'task-item-hover w-full text-left px-4 py-3 border-l-4 transition-colors',
+                          'hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-400',
                           isActive
-                            ? 'border-blue-500 bg-blue-50'
+                            ? `${LEVEL_META[level].activeBorderClass} ${LEVEL_META[level].activeBgClass}`
                             : 'border-transparent',
                         ].join(' ')}
                       >
                         <div className="flex items-center gap-1.5 mb-0.5">
                           {isSolved ? (
-                            <span
+                            <Star
+                              size={14}
                               aria-label="Gelöst"
-                              className="text-yellow-500 text-base leading-none"
+                              className="text-amber-400 flex-shrink-0"
+                              fill="currentColor"
                               title="Aufgabe gelöst"
-                            >
-                              ★
-                            </span>
+                            />
                           ) : (
-                            <span
+                            <Star
+                              size={14}
                               aria-hidden="true"
-                              className="text-gray-300 text-base leading-none"
-                            >
-                              ☆
-                            </span>
+                              className="text-gray-300 flex-shrink-0"
+                            />
                           )}
                           <span
                             className={[
                               'text-sm font-medium truncate',
-                              isActive ? 'text-blue-800' : 'text-gray-800',
+                              isActive ? LEVEL_META[level].activeTextClass : 'text-gray-800',
                             ].join(' ')}
                           >
                             {task.title}
@@ -181,7 +195,8 @@ export default function TaskPanel({
         {/* ── Sandbox entry ──────────────────────────────────────── */}
         {onEnterSandbox && (
           <section aria-label="Sandbox">
-            <div className="sticky top-0 z-10 flex items-center gap-2 px-4 py-2 bg-white border-b border-gray-100 shadow-sm">
+            <div className="sticky top-0 z-10 flex items-center gap-2.5 px-4 py-2.5"
+                 style={{ background: 'var(--color-bg)', borderBottom: '2px solid var(--color-border)' }}>
               <span
                 className="inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold bg-purple-100 text-purple-700"
                 aria-hidden="true"
@@ -203,7 +218,7 @@ export default function TaskPanel({
               ].join(' ')}
             >
               <div className="flex items-center gap-1.5 mb-0.5">
-                <span aria-hidden="true" className="text-purple-500 text-base leading-none">🧩</span>
+                <Blocks size={14} aria-hidden="true" className="text-purple-500 flex-shrink-0" />
                 <span className={`text-sm font-medium ${sandboxMode ? 'text-purple-800' : 'text-gray-800'}`}>
                   Eigenes Level erstellen
                 </span>

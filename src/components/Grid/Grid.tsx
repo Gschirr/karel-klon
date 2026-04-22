@@ -66,55 +66,67 @@ export default function Grid({ worldState, goalState, showGoal = false, animatio
         </text>
       ))}
 
-      {/* Checkerboard background */}
-      {Array.from({ length: height }, (_, row) =>
-        Array.from({ length: width }, (_, col) => (
-          <rect
-            key={`cell-${col}-${row}`}
-            x={col * cellSize}
-            y={row * cellSize}
-            width={cellSize}
-            height={cellSize}
-            fill={(col + row) % 2 === 0
-              ? 'var(--color-cell-a)'
-              : 'var(--color-cell-b)'}
+      {/* Clip path for rounded corners */}
+      <defs>
+        <clipPath id="grid-clip">
+          <rect width={totalWidth} height={totalHeight} rx={8} ry={8} />
+        </clipPath>
+      </defs>
+
+      {/* Clipped content (checkerboard + grid lines) */}
+      <g clipPath="url(#grid-clip)">
+        {/* Checkerboard background */}
+        {Array.from({ length: height }, (_, row) =>
+          Array.from({ length: width }, (_, col) => (
+            <rect
+              key={`cell-${col}-${row}`}
+              x={col * cellSize}
+              y={row * cellSize}
+              width={cellSize}
+              height={cellSize}
+              fill={(col + row) % 2 === 0
+                ? 'var(--color-cell-a)'
+                : 'var(--color-cell-b)'}
+            />
+          ))
+        )}
+
+        {/* Vertical grid lines */}
+        {Array.from({ length: width + 1 }, (_, i) => (
+          <line
+            key={`v${i}`}
+            x1={i * cellSize}
+            y1={0}
+            x2={i * cellSize}
+            y2={totalHeight}
+            stroke="var(--color-grid-line)"
+            strokeWidth={1}
           />
-        ))
-      )}
+        ))}
 
-      {/* Vertical grid lines */}
-      {Array.from({ length: width + 1 }, (_, i) => (
-        <line
-          key={`v${i}`}
-          x1={i * cellSize}
-          y1={0}
-          x2={i * cellSize}
-          y2={totalHeight}
-          stroke="var(--color-grid-line)"
-          strokeWidth={1}
-        />
-      ))}
+        {/* Horizontal grid lines */}
+        {Array.from({ length: height + 1 }, (_, i) => (
+          <line
+            key={`h${i}`}
+            x1={0}
+            y1={i * cellSize}
+            x2={totalWidth}
+            y2={i * cellSize}
+            stroke="var(--color-grid-line)"
+            strokeWidth={1}
+          />
+        ))}
+      </g>
 
-      {/* Horizontal grid lines */}
-      {Array.from({ length: height + 1 }, (_, i) => (
-        <line
-          key={`h${i}`}
-          x1={0}
-          y1={i * cellSize}
-          x2={totalWidth}
-          y2={i * cellSize}
-          stroke="var(--color-grid-line)"
-          strokeWidth={1}
-        />
-      ))}
-
-      {/* Grid border */}
+      {/* Grid border (outside clip, so it's rounded itself) */}
       <rect
         width={totalWidth}
         height={totalHeight}
         fill="none"
         stroke="var(--color-wall)"
         strokeWidth={3}
+        rx={8}
+        ry={8}
       />
 
       {/* Internal walls */}
