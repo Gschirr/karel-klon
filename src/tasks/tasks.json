@@ -484,7 +484,7 @@
     "level": 4,
     "title": "Hindernislauf",
     "description": "Rex laeuft nach rechts, aber Waende blockieren den Weg! Wenn er nicht weiterkommt, muss er drumherum: einen Schritt hoch, einen vor und wieder runter. Benutze eine Schleife mit wenn/sonst und vielen Befehlen im Sonst-Teil!",
-    "hint": "Im Sonst-Teil: links drehen, vorwaerts, rechts drehen, vorwaerts, rechts drehen, vorwaerts, links drehen. Das bringt Rex um die Wand herum!",
+    "hint": "Im Sonst-Teil: links drehen, vorwaerts, dreimal links drehen (statt rechts!), vorwaerts, dreimal links drehen, vorwaerts, links drehen. Das bringt Rex um die Wand herum!",
     "grid": {
       "walls": [
         { "x": 2, "y": 2, "side": "east" },
